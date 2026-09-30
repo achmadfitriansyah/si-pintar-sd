@@ -1,3 +1,4 @@
+"use client";
 import { Home, BookOpen, ScanLine, Trophy, Star } from "lucide-react";
 import BottomNav from "@/components/BottomNav";
 
