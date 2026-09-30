@@ -1,0 +1,15 @@
+{
+  "appId": "com.sipintarsd.app",
+  "appName": "SI-PINTAR SD",
+  "webDir": "www",
+  "server": {
+    "url": "https://si-pintar-sd.vercel.app",
+    "cleartext": false,
+    "allowNavigation": ["si-pintar-sd.vercel.app"]
+  },
+  "android": { "allowMixedContent": false },
+  "plugins": {
+    "SplashScreen": { "launchShowDuration": 800, "backgroundColor": "#F8FAFC", "showSpinner": false },
+    "StatusBar": { "style": "DARK", "backgroundColor": "#FFFFFF" }
+  }
+}

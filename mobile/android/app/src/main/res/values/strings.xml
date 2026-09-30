@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">SI-PINTAR SD</string>
+    <string name="title_activity_main">SI-PINTAR SD</string>
+    <string name="package_name">com.sipintarsd.app</string>
+    <string name="custom_url_scheme">com.sipintarsd.app</string>
+</resources>
