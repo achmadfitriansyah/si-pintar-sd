@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 900" width="600" height="900">
+<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FEF08A"/><stop offset="1" stop-color="#CA8A04"/></linearGradient>
+<radialGradient id="v" cx=".5" cy=".4" r=".8"><stop offset=".6" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".25"/></radialGradient></defs>
+<rect width="600" height="900" fill="url(#g)"/>
+<g font-family="Verdana, sans-serif" font-weight="900" text-anchor="middle">
+<rect x="90" y="470" width="180" height="180" rx="30" fill="#FFF" transform="rotate(-8 180 560)"/><text x="180" y="600" font-size="140" fill="#CA8A04" transform="rotate(-8 180 560)">3</text>
+<rect x="330" y="520" width="180" height="180" rx="30" fill="#FFF" transform="rotate(8 420 610)"/><text x="420" y="650" font-size="140" fill="#DC2626" transform="rotate(8 420 610)">4</text>
+<text x="300" y="610" font-size="110" fill="#1F2937">×</text><text x="300" y="830" font-size="90" fill="#1F2937">= 12</text></g>
+<rect width="600" height="900" fill="url(#v)"/>
+<rect x="0" y="0" width="22" height="900" fill="#000" opacity=".12"/>
+<g font-family="'Fredoka','Trebuchet MS','Arial Rounded MT Bold',Verdana,sans-serif" text-anchor="middle">
+<rect x="213" y="46" width="175" height="42" rx="21" fill="#FFF" opacity=".92"/>
+<text x="300" y="75" font-size="22" font-weight="700" fill="#10B981">PELAJARAN</text>
+<text x="300" y="150" font-size="62" font-weight="800" fill="#FFF" stroke="#0F172A" stroke-opacity=".55" stroke-width="10" paint-order="stroke" stroke-linejoin="round"><tspan x="300" dy="0">Asyik Belajar</tspan><tspan x="300" dy="68">Perkalian</tspan></text>
+<text x="300" y="872" font-size="24" font-weight="700" fill="#FFF" stroke="#0F172A" stroke-opacity=".5" stroke-width="6" paint-order="stroke">Budi Hartono, S.Pd.</text>
+</g></svg>

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 900" width="600" height="900">
+<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C4B5FD"/><stop offset="1" stop-color="#6D28D9"/></linearGradient>
+<radialGradient id="v" cx=".5" cy=".4" r=".8"><stop offset=".6" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".25"/></radialGradient></defs>
+<rect width="600" height="900" fill="url(#g)"/>
+<path d="M80 700 A220 220 0 0 1 520 700" stroke="#EF4444" stroke-width="28" fill="none"/><path d="M108 700 A192 192 0 0 1 492 700" stroke="#F97316" stroke-width="28" fill="none"/><path d="M136 700 A164 164 0 0 1 464 700" stroke="#FACC15" stroke-width="28" fill="none"/><path d="M164 700 A136 136 0 0 1 436 700" stroke="#22C55E" stroke-width="28" fill="none"/><path d="M192 700 A108 108 0 0 1 408 700" stroke="#3B82F6" stroke-width="28" fill="none"/><path d="M220 700 A80 80 0 0 1 380 700" stroke="#8B5CF6" stroke-width="28" fill="none"/><path d="M0 760 Q300 660 600 760 V900 H0Z" fill="#FDE68A"/><path d="M0 800 Q300 760 600 800 V900 H0Z" fill="#38BDF8"/>
+<path d="M300 700 v-80" stroke="#78350F" stroke-width="10"/><path d="M300 625 q-60 -10 -90 20 M300 625 q60 -10 90 20 M300 625 q-30 -50 -70 -50 M300 625 q30 -50 70 -50" stroke="#16A34A" stroke-width="12" fill="none" stroke-linecap="round"/>
+<rect width="600" height="900" fill="url(#v)"/>
+<rect x="0" y="0" width="22" height="900" fill="#000" opacity=".12"/>
+<g font-family="'Fredoka','Trebuchet MS','Arial Rounded MT Bold',Verdana,sans-serif" text-anchor="middle">
+<rect x="243" y="46" width="115" height="42" rx="21" fill="#FFF" opacity=".92"/>
+<text x="300" y="75" font-size="22" font-weight="700" fill="#8B5CF6">FIKSI</text>
+<text x="300" y="150" font-size="62" font-weight="800" fill="#FFF" stroke="#0F172A" stroke-opacity=".55" stroke-width="10" paint-order="stroke" stroke-linejoin="round"><tspan x="300" dy="0">Petualangan di</tspan><tspan x="300" dy="68">Pulau Pelangi</tspan></text>
+<text x="300" y="872" font-size="24" font-weight="700" fill="#FFF" stroke="#0F172A" stroke-opacity=".5" stroke-width="6" paint-order="stroke">Kirana Dewi</text>
+</g></svg>

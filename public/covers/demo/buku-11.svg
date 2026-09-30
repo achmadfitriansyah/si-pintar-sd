@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 900" width="600" height="900">
+<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FDBA74"/><stop offset="1" stop-color="#9A3412"/></linearGradient>
+<radialGradient id="v" cx=".5" cy=".4" r=".8"><stop offset=".6" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".25"/></radialGradient></defs>
+<rect width="600" height="900" fill="url(#g)"/>
+<path d="M0 820 H600 V900 H0Z" fill="#166534"/>
+<g transform="translate(300 600)"><circle cx="-110" cy="-110" r="45" fill="#1F2937"/><circle cx="110" cy="-110" r="45" fill="#1F2937"/>
+<circle r="150" fill="#1F2937"/><ellipse cy="50" rx="80" ry="60" fill="#FCD34D"/><ellipse cy="20" rx="30" ry="20" fill="#111"/>
+<circle cx="-55" cy="-35" r="14" fill="#FEF3C7"/><circle cx="55" cy="-35" r="14" fill="#FEF3C7"/><circle cx="-55" cy="-35" r="6" fill="#111"/><circle cx="55" cy="-35" r="6" fill="#111"/>
+<path d="M-60 110 Q0 150 60 110 Q0 130 -60 110Z" fill="#FCD34D"/></g>
+<rect width="600" height="900" fill="url(#v)"/>
+<rect x="0" y="0" width="22" height="900" fill="#000" opacity=".12"/>
+<g font-family="'Fredoka','Trebuchet MS','Arial Rounded MT Bold',Verdana,sans-serif" text-anchor="middle">
+<rect x="243" y="46" width="115" height="42" rx="21" fill="#FFF" opacity=".92"/>
+<text x="300" y="75" font-size="22" font-weight="700" fill="#F97316">KOMIK</text>
+<text x="300" y="150" font-size="62" font-weight="800" fill="#FFF" stroke="#0F172A" stroke-opacity=".55" stroke-width="10" paint-order="stroke" stroke-linejoin="round"><tspan x="300" dy="0">Si Beruang Madu</tspan><tspan x="300" dy="68">Penjaga Hutan</tspan></text>
+<text x="300" y="872" font-size="24" font-weight="700" fill="#FFF" stroke="#0F172A" stroke-opacity=".5" stroke-width="6" paint-order="stroke">Studio Borneo Ceria</text>
+</g></svg>

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 900" width="600" height="900">
+<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#A3E635"/><stop offset="1" stop-color="#16A34A"/></linearGradient>
+<radialGradient id="v" cx=".5" cy=".4" r=".8"><stop offset=".6" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".25"/></radialGradient></defs>
+<rect width="600" height="900" fill="url(#g)"/>
+<path d="M0 780 H600 V900 H0Z" fill="#15803D"/>
+<g stroke="#1F2937" stroke-width="12" fill="none"><circle cx="190" cy="690" r="90"/><circle cx="430" cy="690" r="90"/></g>
+<g stroke="#DC2626" stroke-width="14" stroke-linecap="round" fill="none"><path d="M190 690 L290 560 L400 560 L430 690 M290 560 L310 690 L190 690 M400 560 L380 510 M270 530 h50"/></g>
+<path d="M360 505 h50" stroke="#1F2937" stroke-width="12" stroke-linecap="round"/>
+<circle cx="120" cy="330" r="50" fill="#FDE047"/>
+<rect width="600" height="900" fill="url(#v)"/>
+<rect x="0" y="0" width="22" height="900" fill="#000" opacity=".12"/>
+<g font-family="'Fredoka','Trebuchet MS','Arial Rounded MT Bold',Verdana,sans-serif" text-anchor="middle">
+<rect x="235" y="46" width="130" height="42" rx="21" fill="#FFF" opacity=".92"/>
+<text x="300" y="75" font-size="22" font-weight="700" fill="#EF4444">CERPEN</text>
+<text x="300" y="150" font-size="62" font-weight="800" fill="#FFF" stroke="#0F172A" stroke-opacity=".55" stroke-width="10" paint-order="stroke" stroke-linejoin="round"><tspan x="300" dy="0">Sepeda Baru</tspan><tspan x="300" dy="68">Bima</tspan></text>
+<text x="300" y="872" font-size="24" font-weight="700" fill="#FFF" stroke="#0F172A" stroke-opacity=".5" stroke-width="6" paint-order="stroke">Andi Prasetyo</text>
+</g></svg>

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 900" width="600" height="900">
+<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FDE68A"/><stop offset="1" stop-color="#EA580C"/></linearGradient>
+<radialGradient id="v" cx=".5" cy=".4" r=".8"><stop offset=".6" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".25"/></radialGradient></defs>
+<rect width="600" height="900" fill="url(#g)"/>
+<g transform="translate(300 610)"><path d="M-130 -60 L-100 -170 L-40 -110Z M130 -60 L100 -170 L40 -110Z" fill="#F97316"/>
+<circle r="140" fill="#FB923C"/><path d="M-140 -130 h280 v-40 q-140 -60 -280 0Z" fill="#1E3A8A"/><rect x="-150" y="-135" width="300" height="20" rx="8" fill="#FACC15"/>
+<circle cx="-50" cy="-10" r="18" fill="#FFF"/><circle cx="50" cy="-10" r="18" fill="#FFF"/><circle cx="-48" cy="-8" r="9" fill="#111"/><circle cx="52" cy="-8" r="9" fill="#111"/>
+<path d="M-12 30 h24 l-12 14Z" fill="#DB2777"/><path d="M-60 45 h-70 M-60 60 h-70 M60 45 h70 M60 60 h70" stroke="#7C2D12" stroke-width="4"/>
+<path d="M-20 60 q20 20 40 0" stroke="#7C2D12" stroke-width="5" fill="none"/></g>
+<rect width="600" height="900" fill="url(#v)"/>
+<rect x="0" y="0" width="22" height="900" fill="#000" opacity=".12"/>
+<g font-family="'Fredoka','Trebuchet MS','Arial Rounded MT Bold',Verdana,sans-serif" text-anchor="middle">
+<rect x="243" y="46" width="115" height="42" rx="21" fill="#FFF" opacity=".92"/>
+<text x="300" y="75" font-size="22" font-weight="700" fill="#F97316">KOMIK</text>
+<text x="300" y="150" font-size="62" font-weight="800" fill="#FFF" stroke="#0F172A" stroke-opacity=".55" stroke-width="10" paint-order="stroke" stroke-linejoin="round"><tspan x="300" dy="0">Kapten Kucing</tspan><tspan x="300" dy="68">Balikpapan</tspan></text>
+<text x="300" y="872" font-size="24" font-weight="700" fill="#FFF" stroke="#0F172A" stroke-opacity=".5" stroke-width="6" paint-order="stroke">Raka Mahendra</text>
+</g></svg>

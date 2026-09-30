@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 900" width="600" height="900">
+<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FECACA"/><stop offset="1" stop-color="#B91C1C"/></linearGradient>
+<radialGradient id="v" cx=".5" cy=".4" r=".8"><stop offset=".6" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".25"/></radialGradient></defs>
+<rect width="600" height="900" fill="url(#g)"/>
+<g transform="translate(120 560)"><rect width="120" height="120" rx="18" fill="#EF4444"/><text x="60" y="88" font-size="80" font-family="Verdana, sans-serif" font-weight="900" fill="#FFF" text-anchor="middle">A</text></g><g transform="translate(250 600)"><rect width="120" height="120" rx="18" fill="#3B82F6"/><text x="60" y="88" font-size="80" font-family="Verdana, sans-serif" font-weight="900" fill="#FFF" text-anchor="middle">B</text></g><g transform="translate(380 560)"><rect width="120" height="120" rx="18" fill="#22C55E"/><text x="60" y="88" font-size="80" font-family="Verdana, sans-serif" font-weight="900" fill="#FFF" text-anchor="middle">C</text></g><rect x="130" y="740" width="340" height="90" rx="14" fill="#FFF"/><path d="M160 770 h280 M160 800 h200" stroke="#FCA5A5" stroke-width="10" stroke-linecap="round"/>
+<rect width="600" height="900" fill="url(#v)"/>
+<rect x="0" y="0" width="22" height="900" fill="#000" opacity=".12"/>
+<g font-family="'Fredoka','Trebuchet MS','Arial Rounded MT Bold',Verdana,sans-serif" text-anchor="middle">
+<rect x="213" y="46" width="175" height="42" rx="21" fill="#FFF" opacity=".92"/>
+<text x="300" y="75" font-size="22" font-weight="700" fill="#10B981">PELAJARAN</text>
+<text x="300" y="140" font-size="52" font-weight="800" fill="#FFF" stroke="#0F172A" stroke-opacity=".55" stroke-width="10" paint-order="stroke" stroke-linejoin="round"><tspan x="300" dy="0">Bahasa</tspan><tspan x="300" dy="58">Indonesia Ceria</tspan><tspan x="300" dy="58">Kelas 3</tspan></text>
+<text x="300" y="872" font-size="24" font-weight="700" fill="#FFF" stroke="#0F172A" stroke-opacity=".5" stroke-width="6" paint-order="stroke">Tim Pena Pintar</text>
+</g></svg>

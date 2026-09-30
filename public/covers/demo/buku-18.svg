@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 900" width="600" height="900">
+<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#A7F3D0"/><stop offset="1" stop-color="#047857"/></linearGradient>
+<radialGradient id="v" cx=".5" cy=".4" r=".8"><stop offset=".6" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".25"/></radialGradient></defs>
+<rect width="600" height="900" fill="url(#g)"/>
+<path d="M255 460 h90 v110 l100 200 q15 40 -30 40 h-230 q-45 0 -30 -40 l100 -200Z" fill="#FFF" opacity=".95"/>
+<path d="M205 680 h190 l40 80 q10 40 -30 40 h-210 q-40 0 -30 -40Z" fill="#10B981"/>
+<g fill="#D1FAE5"><circle cx="270" cy="720" r="12"/><circle cx="320" cy="700" r="8"/><circle cx="350" cy="740" r="14"/></g>
+<rect x="245" y="445" width="110" height="24" rx="10" fill="#047857"/>
+<g fill="#FDE047"><circle cx="160" cy="470" r="14"/><circle cx="450" cy="420" r="10"/><circle cx="470" cy="520" r="7"/></g>
+<rect width="600" height="900" fill="url(#v)"/>
+<rect x="0" y="0" width="22" height="900" fill="#000" opacity=".12"/>
+<g font-family="'Fredoka','Trebuchet MS','Arial Rounded MT Bold',Verdana,sans-serif" text-anchor="middle">
+<rect x="213" y="46" width="175" height="42" rx="21" fill="#FFF" opacity=".92"/>
+<text x="300" y="75" font-size="22" font-weight="700" fill="#10B981">PELAJARAN</text>
+<text x="300" y="150" font-size="62" font-weight="800" fill="#FFF" stroke="#0F172A" stroke-opacity=".55" stroke-width="10" paint-order="stroke" stroke-linejoin="round"><tspan x="300" dy="0">IPAS Seru Kelas</tspan><tspan x="300" dy="68">4</tspan></text>
+<text x="300" y="872" font-size="24" font-weight="700" fill="#FFF" stroke="#0F172A" stroke-opacity=".5" stroke-width="6" paint-order="stroke">Tim Pena Pintar</text>
+</g></svg>

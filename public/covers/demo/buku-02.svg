@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 900" width="600" height="900">
+<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0EA5E9"/><stop offset="1" stop-color="#1E3A8A"/></linearGradient>
+<radialGradient id="v" cx=".5" cy=".4" r=".8"><stop offset=".6" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".25"/></radialGradient></defs>
+<rect width="600" height="900" fill="url(#g)"/>
+<path d="M0 720 Q150 690 300 720 T600 720 V900 H0Z" fill="#1D4ED8"/>
+<path d="M0 760 Q150 730 300 760 T600 760 V900 H0Z" fill="#1E40AF"/>
+<path d="M60 720 L130 470 L210 520 L260 430 L330 720Z" fill="#475569"/>
+<path d="M330 700 h200 l-30 50 h-150Z" fill="#92400E"/><path d="M425 700 V470" stroke="#78350F" stroke-width="8"/>
+<path d="M430 480 L520 640 H430Z" fill="#FFFFFF"/><path d="M420 500 L350 640 H420Z" fill="#E0F2FE"/>
+<circle cx="470" cy="330" r="55" fill="#FDE68A" opacity=".9"/>
+<rect width="600" height="900" fill="url(#v)"/>
+<rect x="0" y="0" width="22" height="900" fill="#000" opacity=".12"/>
+<g font-family="'Fredoka','Trebuchet MS','Arial Rounded MT Bold',Verdana,sans-serif" text-anchor="middle">
+<rect x="183" y="46" width="235" height="42" rx="21" fill="#FFF" opacity=".92"/>
+<text x="300" y="75" font-size="22" font-weight="700" fill="#D97706">CERITA RAKYAT</text>
+<text x="300" y="150" font-size="62" font-weight="800" fill="#FFF" stroke="#0F172A" stroke-opacity=".55" stroke-width="10" paint-order="stroke" stroke-linejoin="round"><tspan x="300" dy="0">Malin Kundang</tspan></text>
+<text x="300" y="872" font-size="24" font-weight="700" fill="#FFF" stroke="#0F172A" stroke-opacity=".5" stroke-width="6" paint-order="stroke">Tim Dongeng Nusantara</text>
+</g></svg>

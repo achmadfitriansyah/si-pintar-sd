@@ -1,153 +1,124 @@
 "use client";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { GraduationCap, Users, BookOpen, ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight, Sparkles, School, PlayCircle } from "lucide-react";
+import { Ribbon } from "@/components/ui";
 
-const roles = [
+const choices = [
   {
-    id: "siswa",
-    title: "Siswa",
-    subtitle: "Baca, tantangan, dan raih poin!",
-    href: "/siswa",
-    icon: BookOpen,
-    color: "from-siswa-red to-red-600",
-    bgAccent: "bg-siswa-yellow",
-    emoji: "📚",
+    href: "/demo/login",
+    title: "Coba Demo",
+    sub: "Data contoh lengkap: buku, siswa, poin, dan tantangan. Bebas dicoba.",
+    icon: PlayCircle,
+    tag: "Untuk calon pengguna",
+    from: "#F59E0B",
+    to: "#EF4444",
+    emoji: "🎮",
   },
   {
-    id: "guru",
-    title: "Guru",
-    subtitle: "Pantau aktivitas & kelola koleksi",
-    href: "/guru",
-    icon: GraduationCap,
-    color: "from-guru-teal to-teal-700",
-    bgAccent: "bg-teal-100",
-    emoji: "🎓",
-  },
-  {
-    id: "ortu",
-    title: "Orang Tua",
-    subtitle: "Dampingi perkembangan literasi anak",
-    href: "/ortu",
-    icon: Users,
-    color: "from-ortu-purple to-purple-700",
-    bgAccent: "bg-ortu-cream",
-    emoji: "👨‍👩‍👧",
+    href: "/sdn001balsel/login",
+    title: "SDN 001 Balikpapan Selatan",
+    sub: "Masuk sebagai siswa, orang tua, atau guru.",
+    icon: School,
+    tag: "Sekolah terdaftar",
+    from: "#0D9488",
+    to: "#1E3A8A",
+    emoji: "🏫",
   },
 ];
 
-export default function LandingPage() {
+export default function Landing() {
   return (
-    <main className="min-h-screen bg-gradient-to-b from-red-50 via-yellow-50 to-red-50 paper overflow-hidden">
-      {/* Bendera merah putih di atas */}
-      <div className="absolute top-0 inset-x-0 h-3 bg-siswa-red" />
-      <div className="absolute top-3 inset-x-0 h-3 bg-white" />
+    <main className="paper relative min-h-dvh overflow-hidden bg-brand-cream">
+      <div className="absolute inset-x-0 top-0 h-2 bg-brand" />
+      <div className="absolute inset-x-0 top-2 h-2 bg-white" />
+      <FloatingDecor />
 
-      <div className="relative max-w-md mx-auto px-6 pt-16 pb-8">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-8"
-        >
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/80 backdrop-blur border border-red-200 rounded-full text-xs font-semibold text-red-700 mb-4">
-            <Sparkles className="w-3 h-3" />
-            SDN 001 Balikpapan Selatan
+      <div className="relative mx-auto grid min-h-dvh max-w-6xl items-center gap-10 px-5 py-14 lg:grid-cols-2 lg:px-10">
+        <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="text-center lg:text-left">
+          <div className="mb-4 inline-flex items-center gap-1.5 rounded-full border border-red-200 bg-white/80 px-3 py-1 text-xs font-bold text-red-700">
+            <Sparkles className="h-3.5 w-3.5" /> Perpustakaan pintar untuk SD
           </div>
-          <h1 className="font-display font-bold text-4xl text-slate-900 leading-tight">
-            SI-PINTAR <span className="text-siswa-red">SD</span>
+          <div className="mb-4 flex justify-center lg:justify-start">
+            <motion.div animate={{ y: [0, -10, 0], rotate: [0, -4, 4, 0] }} transition={{ repeat: Infinity, duration: 3.2 }} className="text-7xl sm:text-8xl">
+              📖
+            </motion.div>
+          </div>
+          <h1 className="font-display text-5xl font-bold leading-none text-slate-900 sm:text-6xl">
+            SI-PINTAR <span className="text-brand">SD</span>
           </h1>
-          <p className="text-slate-600 text-sm mt-2 max-w-xs mx-auto">
-            Sistem Perpustakaan Interaktif dan Literasi Terpadu
+          <p className="mx-auto mt-4 max-w-md text-base text-slate-600 lg:mx-0 lg:text-lg">
+            Pinjam buku dengan sekali scan, kumpulkan poin dan lencana, dan orang tua bisa ikut memantau kebiasaan membaca anak.
           </p>
-        </motion.div>
-
-        {/* Mascot / illustration */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.15, duration: 0.5 }}
-          className="relative flex justify-center mb-6"
-        >
-          <div className="relative">
-            <div className="text-7xl animate-float">📖</div>
-            <div className="absolute -top-2 -right-2 text-2xl animate-[wiggle_1s_ease-in-out_infinite]">✨</div>
-            <div className="absolute -bottom-1 -left-3 text-xl animate-[wiggle_1.4s_ease-in-out_infinite]">⭐</div>
+          <div className="mt-6 hidden flex-wrap gap-2 lg:flex">
+            {["📷 Scan QR", "🏆 Tantangan", "📊 Laporan PDF", "👨‍👩‍👧 Pantauan ortu"].map((f) => (
+              <span key={f} className="rounded-full bg-white px-3 py-1.5 text-sm font-semibold text-slate-700 shadow-soft">
+                {f}
+              </span>
+            ))}
           </div>
         </motion.div>
 
-        {/* Ribbon: Pilih Peran */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.5 }}
-          className="flex justify-center mb-6"
-        >
-          <div className="ribbon ribbon-red text-lg">Pilih Peran Kamu</div>
-        </motion.div>
-
-        {/* Role cards */}
-        <div className="space-y-3">
-          {roles.map((role, i) => {
-            const Icon = role.icon;
-            return (
-              <motion.div
-                key={role.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 + i * 0.1, duration: 0.4 }}
-              >
-                <Link href={role.href} className="block group tap">
-                  <div
-                    className={`relative rounded-3xl bg-gradient-to-br ${role.color} p-5 shadow-card overflow-hidden`}
-                  >
-                    {/* Decorative circles */}
-                    <div className="absolute -top-8 -right-8 w-32 h-32 bg-white/10 rounded-full" />
-                    <div className="absolute -bottom-6 -right-4 w-20 h-20 bg-white/10 rounded-full" />
-
-                    <div className="relative flex items-center gap-4">
-                      <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center text-3xl flex-shrink-0">
-                        {role.emoji}
-                      </div>
-                      <div className="flex-1 min-w-0 text-white">
-                        <div className="font-display font-bold text-xl">
-                          {role.title}
+        <div>
+          <Ribbon className="mb-6">Pilih Sekolah</Ribbon>
+          <div className="space-y-4">
+            {choices.map((c, i) => {
+              const Icon = c.icon;
+              return (
+                <motion.div key={c.href} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.15 + i * 0.1, type: "spring", stiffness: 200, damping: 22 }}>
+                  <Link href={c.href} className="group block">
+                    <motion.div
+                      whileHover={{ y: -4 }}
+                      whileTap={{ scale: 0.97 }}
+                      className="relative overflow-hidden rounded-[2rem] p-6 text-white shadow-card"
+                      style={{ background: `linear-gradient(135deg, ${c.from}, ${c.to})` }}
+                    >
+                      <div className="absolute -right-8 -top-8 h-36 w-36 rounded-full bg-white/10" />
+                      <div className="absolute -bottom-10 right-10 h-24 w-24 rounded-full bg-white/10" />
+                      <div className="relative flex items-center gap-4">
+                        <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-white/20 text-4xl backdrop-blur">{c.emoji}</div>
+                        <div className="min-w-0 flex-1">
+                          <div className="text-[11px] font-bold uppercase tracking-wider text-white/80">{c.tag}</div>
+                          <div className="font-display text-2xl font-bold leading-tight">{c.title}</div>
+                          <div className="mt-1 text-sm text-white/85">{c.sub}</div>
                         </div>
-                        <div className="text-sm text-white/85 mt-0.5">
-                          {role.subtitle}
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/25 transition group-hover:translate-x-1">
+                          <ArrowRight className="h-5 w-5" />
                         </div>
                       </div>
-                      <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center group-hover:translate-x-1 transition-transform">
-                        <ArrowRight className="w-5 h-5 text-white" />
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              </motion.div>
-            );
-          })}
+                      <Icon className="absolute -bottom-3 left-4 h-16 w-16 text-white/10" />
+                    </motion.div>
+                  </Link>
+                </motion.div>
+              );
+            })}
+          </div>
+          <div className="mt-8 text-center">
+            <div className="text-[11px] font-bold tracking-[0.2em] text-slate-400">BERIMAN · SEHAT · RAMAH · INOVATIF · BERSERI</div>
+            <div className="mt-1 font-display font-semibold text-brand">&ldquo;Membaca Hari Ini, Sukses Esok Hari!&rdquo;</div>
+          </div>
         </div>
-
-        {/* Motto */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.9 }}
-          className="mt-8 text-center"
-        >
-          <div className="inline-flex items-center gap-1 text-xs font-semibold text-slate-500 mb-1">
-            <span>BERIMAN</span><span>·</span>
-            <span>SEHAT</span><span>·</span>
-            <span>RAMAH</span><span>·</span>
-            <span>INOVATIF</span><span>·</span>
-            <span>BERSERI</span>
-          </div>
-          <p className="font-display text-siswa-red font-semibold text-sm">
-            "Membaca Hari Ini, Sukses Esok Hari!"
-          </p>
-        </motion.div>
       </div>
     </main>
   );
+}
+
+function FloatingDecor() {
+  const items = [
+    { e: "⭐", x: "8%", y: "18%", d: 0 },
+    { e: "📚", x: "88%", y: "12%", d: 0.6 },
+    { e: "✨", x: "80%", y: "78%", d: 1.2 },
+    { e: "🏆", x: "6%", y: "82%", d: 0.3 },
+  ];
+  return items.map((it) => (
+    <motion.div
+      key={it.e}
+      className="pointer-events-none absolute hidden text-3xl opacity-70 sm:block"
+      style={{ left: it.x, top: it.y }}
+      animate={{ y: [0, -12, 0], rotate: [0, 10, -10, 0] }}
+      transition={{ repeat: Infinity, duration: 4, delay: it.d }}
+    >
+      {it.e}
+    </motion.div>
+  ));
 }

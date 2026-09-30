@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 900" width="600" height="900">
+<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#94A3B8"/><stop offset="1" stop-color="#334155"/></linearGradient>
+<radialGradient id="v" cx=".5" cy=".4" r=".8"><stop offset=".6" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".25"/></radialGradient></defs>
+<rect width="600" height="900" fill="url(#g)"/>
+<rect x="210" y="480" width="180" height="150" rx="30" fill="#E2E8F0"/>
+<rect x="240" y="515" width="120" height="60" rx="16" fill="#1E293B"/><circle cx="275" cy="545" r="12" fill="#22D3EE"/><circle cx="325" cy="545" r="12" fill="#22D3EE"/>
+<path d="M300 480 v-40" stroke="#E2E8F0" stroke-width="8"/><circle cx="300" cy="430" r="14" fill="#F43F5E"/>
+<rect x="225" y="645" width="150" height="130" rx="24" fill="#CBD5E1"/><circle cx="300" cy="705" r="22" fill="#FACC15"/>
+<path d="M225 680 l-60 40 M375 680 l60 -40" stroke="#CBD5E1" stroke-width="22" stroke-linecap="round"/>
+<path d="M260 775 v50 M340 775 v50" stroke="#94A3B8" stroke-width="22" stroke-linecap="round"/>
+<rect width="600" height="900" fill="url(#v)"/>
+<rect x="0" y="0" width="22" height="900" fill="#000" opacity=".12"/>
+<g font-family="'Fredoka','Trebuchet MS','Arial Rounded MT Bold',Verdana,sans-serif" text-anchor="middle">
+<rect x="243" y="46" width="115" height="42" rx="21" fill="#FFF" opacity=".92"/>
+<text x="300" y="75" font-size="22" font-weight="700" fill="#8B5CF6">FIKSI</text>
+<text x="300" y="150" font-size="62" font-weight="800" fill="#FFF" stroke="#0F172A" stroke-opacity=".55" stroke-width="10" paint-order="stroke" stroke-linejoin="round"><tspan x="300" dy="0">Robot Kecil</tspan><tspan x="300" dy="68">Bernama Tiko</tspan></text>
+<text x="300" y="872" font-size="24" font-weight="700" fill="#FFF" stroke="#0F172A" stroke-opacity=".5" stroke-width="6" paint-order="stroke">Bayu Saputra</text>
+</g></svg>

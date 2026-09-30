@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 900" width="600" height="900">
+<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#86EFAC"/><stop offset="1" stop-color="#166534"/></linearGradient>
+<radialGradient id="v" cx=".5" cy=".4" r=".8"><stop offset=".6" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".25"/></radialGradient></defs>
+<rect width="600" height="900" fill="url(#g)"/>
+<path d="M0 800 H600 V900 H0Z" fill="#15803D"/>
+<path d="M270 800 Q280 650 250 600 L350 600 Q320 650 330 800Z" fill="#78350F"/>
+<g fill="#16A34A"><circle cx="300" cy="500" r="150"/><circle cx="180" cy="560" r="90"/><circle cx="420" cy="560" r="90"/></g>
+<g fill="#22C55E"><circle cx="260" cy="460" r="70"/><circle cx="380" cy="520" r="55"/></g>
+<path d="M230 600 v120 M370 600 v110 M300 600 v140" stroke="#92400E" stroke-width="5" opacity=".7"/>
+<rect x="355" y="740" width="70" height="46" rx="6" fill="#FEF3C7" transform="rotate(-8 390 763)"/><path d="M365 752 h45 M365 766 h35" stroke="#B45309" stroke-width="4" transform="rotate(-8 390 763)"/>
+<rect width="600" height="900" fill="url(#v)"/>
+<rect x="0" y="0" width="22" height="900" fill="#000" opacity=".12"/>
+<g font-family="'Fredoka','Trebuchet MS','Arial Rounded MT Bold',Verdana,sans-serif" text-anchor="middle">
+<rect x="243" y="46" width="115" height="42" rx="21" fill="#FFF" opacity=".92"/>
+<text x="300" y="75" font-size="22" font-weight="700" fill="#8B5CF6">FIKSI</text>
+<text x="300" y="150" font-size="62" font-weight="800" fill="#FFF" stroke="#0F172A" stroke-opacity=".55" stroke-width="10" paint-order="stroke" stroke-linejoin="round"><tspan x="300" dy="0">Rahasia Pohon</tspan><tspan x="300" dy="68">Beringin</tspan></text>
+<text x="300" y="872" font-size="24" font-weight="700" fill="#FFF" stroke="#0F172A" stroke-opacity=".5" stroke-width="6" paint-order="stroke">Kirana Dewi</text>
+</g></svg>

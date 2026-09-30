@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 900" width="600" height="900">
+<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#38BDF8"/><stop offset="1" stop-color="#EF4444"/></linearGradient>
+<radialGradient id="v" cx=".5" cy=".4" r=".8"><stop offset=".6" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".25"/></radialGradient></defs>
+<rect width="600" height="900" fill="url(#g)"/>
+<g transform="translate(330 520) rotate(-12)"><path d="M0 -170 L120 0 L0 170 L-120 0Z" fill="#EF4444"/>
+<path d="M0 -170 V170 M-120 0 H120" stroke="#7F1D1D" stroke-width="6"/><path d="M0 -170 L120 0 L0 0Z" fill="#F87171"/></g>
+<path d="M330 690 Q280 740 330 790 T300 880" stroke="#FEF3C7" stroke-width="5" fill="none"/>
+<g fill="#FDE047"><path d="M312 740 l18 -10 l0 20Z"/><path d="M322 800 l18 -10 l0 20Z"/></g>
+<path d="M0 880 Q300 800 600 880 V900 H0Z" fill="#16A34A"/>
+<g fill="#FFFFFF" opacity=".9"><ellipse cx="120" cy="330" rx="60" ry="22"/><ellipse cx="160" cy="318" rx="40" ry="24"/><ellipse cx="480" cy="760" rx="50" ry="18"/></g>
+<rect width="600" height="900" fill="url(#v)"/>
+<rect x="0" y="0" width="22" height="900" fill="#000" opacity=".12"/>
+<g font-family="'Fredoka','Trebuchet MS','Arial Rounded MT Bold',Verdana,sans-serif" text-anchor="middle">
+<rect x="235" y="46" width="130" height="42" rx="21" fill="#FFF" opacity=".92"/>
+<text x="300" y="75" font-size="22" font-weight="700" fill="#EF4444">CERPEN</text>
+<text x="300" y="150" font-size="62" font-weight="800" fill="#FFF" stroke="#0F172A" stroke-opacity=".55" stroke-width="10" paint-order="stroke" stroke-linejoin="round"><tspan x="300" dy="0">Layang-Layang</tspan><tspan x="300" dy="68">Merah Dinda</tspan></text>
+<text x="300" y="872" font-size="24" font-weight="700" fill="#FFF" stroke="#0F172A" stroke-opacity=".5" stroke-width="6" paint-order="stroke">Rara Anindita</text>
+</g></svg>

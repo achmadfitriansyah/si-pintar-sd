@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 900" width="600" height="900">
+<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#BAE6FD"/><stop offset="1" stop-color="#0369A1"/></linearGradient>
+<radialGradient id="v" cx=".5" cy=".4" r=".8"><stop offset=".6" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".25"/></radialGradient></defs>
+<rect width="600" height="900" fill="url(#g)"/>
+<g fill="#FFFFFF"><circle cx="230" cy="520" r="70"/><circle cx="320" cy="480" r="90"/><circle cx="410" cy="530" r="65"/><rect x="170" y="520" width="300" height="80" rx="40"/></g><path d="M200 650 q-12 22 0 30 q12 -8 0 -30Z" fill="#0284C7"/><path d="M260 700 q-12 22 0 30 q12 -8 0 -30Z" fill="#0284C7"/><path d="M320 660 q-12 22 0 30 q12 -8 0 -30Z" fill="#0284C7"/><path d="M380 710 q-12 22 0 30 q12 -8 0 -30Z" fill="#0284C7"/><path d="M440 650 q-12 22 0 30 q12 -8 0 -30Z" fill="#0284C7"/><path d="M230 760 q-12 22 0 30 q12 -8 0 -30Z" fill="#0284C7"/><path d="M350 780 q-12 22 0 30 q12 -8 0 -30Z" fill="#0284C7"/><path d="M420 770 q-12 22 0 30 q12 -8 0 -30Z" fill="#0284C7"/><path d="M0 840 H600 V900 H0Z" fill="#0369A1"/>
+<rect width="600" height="900" fill="url(#v)"/>
+<rect x="0" y="0" width="22" height="900" fill="#000" opacity=".12"/>
+<g font-family="'Fredoka','Trebuchet MS','Arial Rounded MT Bold',Verdana,sans-serif" text-anchor="middle">
+<rect x="198" y="46" width="205" height="42" rx="21" fill="#FFF" opacity=".92"/>
+<text x="300" y="75" font-size="22" font-weight="700" fill="#0EA5E9">PENGETAHUAN</text>
+<text x="300" y="150" font-size="62" font-weight="800" fill="#FFF" stroke="#0F172A" stroke-opacity=".55" stroke-width="10" paint-order="stroke" stroke-linejoin="round"><tspan x="300" dy="0">Kenapa Hujan</tspan><tspan x="300" dy="68">Turun?</tspan></text>
+<text x="300" y="872" font-size="24" font-weight="700" fill="#FFF" stroke="#0F172A" stroke-opacity=".5" stroke-width="6" paint-order="stroke">Dr. Laras Pertiwi</text>
+</g></svg>

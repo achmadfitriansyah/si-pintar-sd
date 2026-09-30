@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 900" width="600" height="900">
+<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#BBF7D0"/><stop offset="1" stop-color="#15803D"/></linearGradient>
+<radialGradient id="v" cx=".5" cy=".4" r=".8"><stop offset=".6" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".25"/></radialGradient></defs>
+<rect width="600" height="900" fill="url(#g)"/>
+<g fill="#16A34A"><path d="M120 820 Q60 620 250 520 Q260 720 120 820Z"/><path d="M480 820 Q540 620 350 520 Q340 720 480 820Z"/></g>
+<g transform="translate(300 600)"><circle r="95" fill="#C2410C"/><circle cy="-10" r="60" fill="#FDBA74"/>
+<circle cx="-22" cy="-20" r="10" fill="#111"/><circle cx="22" cy="-20" r="10" fill="#111"/><ellipse cy="15" rx="20" ry="12" fill="#9A3412"/>
+<circle cx="-95" cy="-40" r="26" fill="#C2410C"/><circle cx="95" cy="-40" r="26" fill="#C2410C"/></g>
+<path d="M300 700 v120" stroke="#9A3412" stroke-width="40" stroke-linecap="round"/>
+<rect width="600" height="900" fill="url(#v)"/>
+<rect x="0" y="0" width="22" height="900" fill="#000" opacity=".12"/>
+<g font-family="'Fredoka','Trebuchet MS','Arial Rounded MT Bold',Verdana,sans-serif" text-anchor="middle">
+<rect x="198" y="46" width="205" height="42" rx="21" fill="#FFF" opacity=".92"/>
+<text x="300" y="75" font-size="22" font-weight="700" fill="#0EA5E9">PENGETAHUAN</text>
+<text x="300" y="140" font-size="52" font-weight="800" fill="#FFF" stroke="#0F172A" stroke-opacity=".55" stroke-width="10" paint-order="stroke" stroke-linejoin="round"><tspan x="300" dy="0">Ensiklopedia</tspan><tspan x="300" dy="58">Hewan</tspan><tspan x="300" dy="58">Kalimantan</tspan></text>
+<text x="300" y="872" font-size="24" font-weight="700" fill="#FFF" stroke="#0F172A" stroke-opacity=".5" stroke-width="6" paint-order="stroke">Tim Sains Anak</text>
+</g></svg>

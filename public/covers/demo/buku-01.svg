@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 900" width="600" height="900">
+<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F59E0B"/><stop offset="1" stop-color="#B45309"/></linearGradient>
+<radialGradient id="v" cx=".5" cy=".4" r=".8"><stop offset=".6" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".25"/></radialGradient></defs>
+<rect width="600" height="900" fill="url(#g)"/>
+<path d="M0 700 Q150 660 300 700 T600 700 V900 H0Z" fill="#0EA5E9" opacity=".75"/>
+<ellipse cx="300" cy="640" rx="200" ry="50" fill="#15803D"/>
+<path d="M110 640 L500 620 L520 650 L110 665Z" fill="#166534"/>
+<path d="M140 628 l12 -16 l12 16 l12 -16 l12 16 l12 -16 l12 16 l12 -16 l12 16" stroke="#F0FDF4" stroke-width="5" fill="none"/>
+<circle cx="470" cy="610" r="12" fill="#FEF9C3"/><circle cx="472" cy="610" r="5" fill="#111"/>
+<g transform="translate(330 450)"><ellipse cx="0" cy="60" rx="60" ry="40" fill="#B45309"/><circle cx="55" cy="20" r="30" fill="#B45309"/>
+<path d="M60 -8 l8 -40 l10 42Z M45 -6 l2 -36 l12 36Z" fill="#92400E"/><circle cx="66" cy="16" r="5" fill="#111"/>
+<path d="M-30 95 v40 M-5 98 v40 M30 95 v40 M50 90 v40" stroke="#92400E" stroke-width="10" stroke-linecap="round"/></g>
+<rect width="600" height="900" fill="url(#v)"/>
+<rect x="0" y="0" width="22" height="900" fill="#000" opacity=".12"/>
+<g font-family="'Fredoka','Trebuchet MS','Arial Rounded MT Bold',Verdana,sans-serif" text-anchor="middle">
+<rect x="183" y="46" width="235" height="42" rx="21" fill="#FFF" opacity=".92"/>
+<text x="300" y="75" font-size="22" font-weight="700" fill="#D97706">CERITA RAKYAT</text>
+<text x="300" y="150" font-size="62" font-weight="800" fill="#FFF" stroke="#0F172A" stroke-opacity=".55" stroke-width="10" paint-order="stroke" stroke-linejoin="round"><tspan x="300" dy="0">Si Kancil dan</tspan><tspan x="300" dy="68">Buaya</tspan></text>
+<text x="300" y="872" font-size="24" font-weight="700" fill="#FFF" stroke="#0F172A" stroke-opacity=".5" stroke-width="6" paint-order="stroke">Tim Dongeng Nusantara</text>
+</g></svg>

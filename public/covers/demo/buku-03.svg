@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 900" width="600" height="900">
+<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FBBF24"/><stop offset="1" stop-color="#15803D"/></linearGradient>
+<radialGradient id="v" cx=".5" cy=".4" r=".8"><stop offset=".6" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".25"/></radialGradient></defs>
+<rect width="600" height="900" fill="url(#g)"/>
+<circle cx="300" cy="560" r="150" fill="#FDE047"/><circle cx="300" cy="560" r="115" fill="#FACC15"/>
+<ellipse cx="300" cy="760" rx="210" ry="55" fill="#16A34A"/>
+<ellipse cx="300" cy="750" rx="170" ry="35" fill="#22C55E"/>
+<g fill="#BBF7D0"><circle cx="220" cy="748" r="6"/><circle cx="270" cy="758" r="6"/><circle cx="330" cy="744" r="6"/><circle cx="380" cy="756" r="6"/></g>
+<g transform="translate(300 560)"><circle r="42" fill="#FDBA74"/><path d="M-45 -10 Q0 -80 45 -10 Q0 -40 -45 -10Z" fill="#1F2937"/>
+<circle cx="-14" cy="4" r="5" fill="#111"/><circle cx="14" cy="4" r="5" fill="#111"/><path d="M-12 20 Q0 30 12 20" stroke="#111" stroke-width="4" fill="none"/></g>
+<rect width="600" height="900" fill="url(#v)"/>
+<rect x="0" y="0" width="22" height="900" fill="#000" opacity=".12"/>
+<g font-family="'Fredoka','Trebuchet MS','Arial Rounded MT Bold',Verdana,sans-serif" text-anchor="middle">
+<rect x="183" y="46" width="235" height="42" rx="21" fill="#FFF" opacity=".92"/>
+<text x="300" y="75" font-size="22" font-weight="700" fill="#D97706">CERITA RAKYAT</text>
+<text x="300" y="150" font-size="62" font-weight="800" fill="#FFF" stroke="#0F172A" stroke-opacity=".55" stroke-width="10" paint-order="stroke" stroke-linejoin="round"><tspan x="300" dy="0">Timun Mas</tspan></text>
+<text x="300" y="872" font-size="24" font-weight="700" fill="#FFF" stroke="#0F172A" stroke-opacity=".5" stroke-width="6" paint-order="stroke">Tim Dongeng Nusantara</text>
+</g></svg>

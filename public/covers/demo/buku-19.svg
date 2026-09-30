@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 900" width="600" height="900">
+<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#134E4A"/><stop offset="1" stop-color="#0F766E"/></linearGradient>
+<radialGradient id="v" cx=".5" cy=".4" r=".8"><stop offset=".6" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".25"/></radialGradient></defs>
+<rect width="600" height="900" fill="url(#g)"/>
+<path d="M110 420 l6 14 l14 6 l-14 6 l-6 14 l-6 -14 l-14 -6 l14 -6Z" fill="#FDE68A"/><path d="M480 460 l6 14 l14 6 l-14 6 l-6 14 l-6 -14 l-14 -6 l14 -6Z" fill="#FDE68A"/><path d="M150 780 l6 14 l14 6 l-14 6 l-6 14 l-6 -14 l-14 -6 l14 -6Z" fill="#FDE68A"/><path d="M470 760 l6 14 l14 6 l-14 6 l-6 14 l-6 -14 l-14 -6 l14 -6Z" fill="#FDE68A"/><path d="M420 380 l6 14 l14 6 l-14 6 l-6 14 l-6 -14 l-14 -6 l14 -6Z" fill="#FDE68A"/><path d="M300 400 v60" stroke="#FDE68A" stroke-width="6"/><path d="M240 470 h120 l-20 30 h-80Z" fill="#B45309"/>
+<path d="M230 500 h140 q30 110 0 220 h-140 q-30 -110 0 -220Z" fill="#F59E0B"/><path d="M300 500 v220 M260 505 q-15 105 0 210 M340 505 q15 105 0 210" stroke="#B45309" stroke-width="5" fill="none"/>
+<ellipse cx="300" cy="610" rx="30" ry="45" fill="#FEF3C7" opacity=".9"/><path d="M250 720 h100 l-15 25 h-70Z" fill="#B45309"/>
+<rect width="600" height="900" fill="url(#v)"/>
+<rect x="0" y="0" width="22" height="900" fill="#000" opacity=".12"/>
+<g font-family="'Fredoka','Trebuchet MS','Arial Rounded MT Bold',Verdana,sans-serif" text-anchor="middle">
+<rect x="243" y="46" width="115" height="42" rx="21" fill="#FFF" opacity=".92"/>
+<text x="300" y="75" font-size="22" font-weight="700" fill="#0D9488">AGAMA</text>
+<text x="300" y="150" font-size="62" font-weight="800" fill="#FFF" stroke="#0F172A" stroke-opacity=".55" stroke-width="10" paint-order="stroke" stroke-linejoin="round"><tspan x="300" dy="0">Kisah Teladan</tspan><tspan x="300" dy="68">Para Nabi</tspan></text>
+<text x="300" y="872" font-size="24" font-weight="700" fill="#FFF" stroke="#0F172A" stroke-opacity=".5" stroke-width="6" paint-order="stroke">Ust. Hasan Basri</text>
+</g></svg>

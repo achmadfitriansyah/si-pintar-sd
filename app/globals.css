@@ -3,121 +3,102 @@
 @tailwind utilities;
 
 :root {
-  --safe-bottom: env(safe-area-inset-bottom);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-top: env(safe-area-inset-top, 0px);
 }
 
-html, body {
-  height: 100%;
-  overflow-x: hidden;
-}
-
+html,
 body {
-  font-family: var(--font-jakarta), system-ui, sans-serif;
   -webkit-tap-highlight-color: transparent;
   overscroll-behavior-y: none;
 }
-
-/* ========== SIGNATURE: RIBBON BANNER ========== */
-.ribbon {
-  position: relative;
-  display: inline-block;
-  padding: 0.5rem 2rem;
-  color: white;
-  font-family: var(--font-fredoka), sans-serif;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  box-shadow: 0 4px 0 -2px rgba(0,0,0,0.15);
-}
-.ribbon::before, .ribbon::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  width: 0;
-  height: 0;
-  border: 1.25rem solid transparent;
-}
-.ribbon::before {
-  left: -1.25rem;
-  border-right-width: 1rem;
-}
-.ribbon::after {
-  right: -1.25rem;
-  border-left-width: 1rem;
+body {
+  font-family: var(--font-jakarta), system-ui, sans-serif;
+  color: #0f172a;
+  background: #fff8e7;
 }
 
-.ribbon-red    { background: #EF4444; }
-.ribbon-red::before  { border-right-color: #B91C1C; }
-.ribbon-red::after   { border-left-color: #B91C1C; }
-
-.ribbon-teal   { background: #0D9488; }
-.ribbon-teal::before { border-right-color: #115E59; }
-.ribbon-teal::after  { border-left-color: #115E59; }
-
-.ribbon-purple { background: #7C3AED; }
-.ribbon-purple::before { border-right-color: #5B21B6; }
-.ribbon-purple::after  { border-left-color: #5B21B6; }
-
-/* Notched-corner card (matches masterplan aesthetic) */
-.notched-card {
-  clip-path: polygon(
-    0 12px, 12px 0,
-    calc(100% - 12px) 0, 100% 12px,
-    100% calc(100% - 12px), calc(100% - 12px) 100%,
-    12px 100%, 0 calc(100% - 12px)
-  );
-}
-
-/* Paper-texture soft background */
+/* Tekstur kertas lembut */
 .paper {
-  background-image:
-    radial-gradient(circle at 20px 20px, rgba(0,0,0,0.02) 1px, transparent 1px),
-    radial-gradient(circle at 60px 60px, rgba(0,0,0,0.015) 1px, transparent 1px);
+  background-image: radial-gradient(circle at 20px 20px, rgba(0, 0, 0, 0.025) 1px, transparent 1.5px),
+    radial-gradient(circle at 60px 60px, rgba(0, 0, 0, 0.02) 1px, transparent 1.5px);
   background-size: 80px 80px;
 }
 
-/* Tap feedback */
-.tap {
-  transition: transform 0.1s ease, box-shadow 0.15s ease;
+/* ===== Signature: pita / ribbon ala buku pelajaran ===== */
+.ribbon {
+  position: relative;
+  display: inline-block;
+  padding: 0.45rem 1.6rem;
+  color: #fff;
+  font-family: var(--font-fredoka), sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  background: var(--rb, #ef4444);
+  box-shadow: 0 4px 0 -2px rgba(0, 0, 0, 0.15);
 }
-.tap:active {
-  transform: scale(0.97);
+.ribbon::before,
+.ribbon::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  border: 1.1rem solid transparent;
 }
-
-/* Star burst for achievements */
-.starburst {
-  clip-path: polygon(
-    50% 0%, 61% 35%, 98% 35%, 68% 57%,
-    79% 91%, 50% 70%, 21% 91%, 32% 57%,
-    2% 35%, 39% 35%
-  );
+.ribbon::before {
+  left: -1.3rem;
+  border-right: 0.9rem solid var(--rbd, #b91c1c);
 }
-
-/* Sparkle animation */
-@keyframes sparkle {
-  0%, 100% { opacity: 0; transform: scale(0.5); }
-  50% { opacity: 1; transform: scale(1); }
-}
-.sparkle { animation: sparkle 1.5s ease-in-out infinite; }
-
-/* Shimmering skeleton */
-.skeleton {
-  background: linear-gradient(90deg, #e5e7eb 0%, #f3f4f6 50%, #e5e7eb 100%);
-  background-size: 200% 100%;
-  animation: shine 1.8s linear infinite;
+.ribbon::after {
+  right: -1.3rem;
+  border-left: 0.9rem solid var(--rbd, #b91c1c);
 }
 
-/* Hide scrollbar */
-.no-scrollbar::-webkit-scrollbar { display: none; }
-.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  scrollbar-width: none;
+}
 
-/* Bottom-nav safe area */
-.bottom-nav-safe {
+.pb-safe {
   padding-bottom: calc(0.5rem + var(--safe-bottom));
 }
 
+.skeleton {
+  background: linear-gradient(90deg, #eef2f6 0%, #f8fafc 50%, #eef2f6 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.6s linear infinite;
+}
+
+/* Video kamera scanner */
+.scanner-box video {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+}
+.scanner-box img[alt="Info icon"],
+.scanner-box #qr-shaded-region {
+  display: none !important;
+}
+
+input,
+select,
+textarea {
+  font-size: 16px; /* cegah zoom otomatis di iPhone */
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
 }
