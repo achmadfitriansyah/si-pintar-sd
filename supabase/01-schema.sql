@@ -14,6 +14,7 @@ create table if not exists schools (
   is_demo     boolean not null default false,
   max_books   int not null default 3,         -- maksimal buku dipinjam bersamaan
   loan_days   int not null default 7,         -- lama pinjam (hari)
+  rombel      text not null default 'A,B,C,D,E,F', -- daftar rombel, dipisah koma
   created_at  timestamptz not null default now()
 );
 
@@ -52,6 +53,7 @@ create table if not exists categories (
   nama       text not null,
   emoji      text not null default '📚',
   color      text not null default '#EF4444',
+  icon       text,
   unique (school_id, kode)
 );
 

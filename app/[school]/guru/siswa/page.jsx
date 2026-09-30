@@ -9,7 +9,7 @@ import { useToast, useConfirm } from "@/components/Providers";
 import { useSchool } from "@/components/SchoolContext";
 import { useRpc, rpc, initials } from "@/lib/client";
 import { fmtDate } from "@/lib/time";
-import { TINGKAT, ROMBEL } from "@/lib/rules";
+import { TINGKAT } from "@/lib/rules";
 import Icon from "@/components/Icon";
 
 export default function GuruSiswa() {
@@ -203,6 +203,7 @@ function RowBtn({ icon: Icon, onClick, danger }) {
 
 // ═══════════════════════ Tambah / edit
 function StudentForm({ value, onClose, onSaved, classes }) {
+  const { school } = useSchool();
   const toast = useToast();
   const [f, setF] = useState(value || {});
   const [saving, setSaving] = useState(false);
@@ -259,7 +260,7 @@ function StudentForm({ value, onClose, onSaved, classes }) {
             </Select>
             <Select value={rombel} onChange={(e) => setKelas(tingkat, e.target.value)} aria-label="Rombel">
               <option value="">Rombel</option>
-              {ROMBEL.map((r) => (
+              {[...new Set([...(school?.rombel || "A,B,C,D,E,F").split(","), ...(rombel ? [rombel] : [])])].sort().map((r) => (
                 <option key={r} value={r}>
                   {r}
                 </option>

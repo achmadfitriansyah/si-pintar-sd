@@ -39,7 +39,7 @@ export default function Koleksi() {
         <div className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4 pb-2 sm:mx-0 sm:flex-wrap sm:px-0">
           <CatChip active={!cat} onClick={() => setCat(null)} icon="kategori/semua" label="Semua" />
           {data?.categories?.map((c) => (
-            <CatChip key={c.id} active={cat === c.id} onClick={() => setCat(c.id)} icon={catIcon(c.kode)} label={c.nama} />
+            <CatChip key={c.id} active={cat === c.id} onClick={() => setCat(c.id)} icon={catIcon(c)} label={c.nama} />
           ))}
         </div>
 
@@ -73,7 +73,7 @@ export default function Koleksi() {
                   </div>
                   <div className="mt-2 line-clamp-2 font-display text-sm font-bold leading-tight">{b.judul}</div>
                   <div className="flex items-center gap-1 truncate text-xs text-slate-500">
-                    <Icon name={catIcon(b.category?.kode)} size={16} /> {b.category?.nama}
+                    <Icon name={catIcon(b.category)} size={16} /> {b.category?.nama}
                   </div>
                 </motion.button>
               ))}
@@ -120,7 +120,7 @@ function BookSheet({ id, onClose }) {
           </motion.div>
           <div>
             <Chip className="bg-violet-100 text-violet-700">
-              <Icon name={catIcon(b.category?.kode)} size={16} /> {b.category?.nama}
+              <Icon name={catIcon(b.category)} size={16} /> {b.category?.nama}
             </Chip>
             <h2 className="mt-2 font-display text-2xl font-bold leading-tight">{b.judul}</h2>
             <div className="text-sm text-slate-500">

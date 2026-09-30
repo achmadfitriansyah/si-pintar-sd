@@ -319,7 +319,7 @@ function BookDetail({ id, meta, onClose, onChanged }) {
             <div>
               {b.category && (
                 <Chip className="bg-teal-50 text-teal-700">
-                  <Icon name={catIcon(b.category.kode)} size={16} /> {b.category.nama}
+                  <Icon name={catIcon(b.category)} size={16} /> {b.category.nama}
                 </Chip>
               )}
               <h2 className="mt-1 font-display text-2xl font-bold leading-tight">{b.judul}</h2>
