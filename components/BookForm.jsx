@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ScanBarcode, Search, ImagePlus, Wand2 } from "lucide-react";
+import { ScanBarcode, ImagePlus, Wand2 } from "lucide-react";
 import { Field, Input, Select, Button, Cover, inputCls } from "./ui";
 import Scanner from "./Scanner";
 import CoverEditor from "./CoverEditor";
@@ -14,36 +14,10 @@ export const emptyBook = { judul: "", penulis: "", penerbit: "", tahun: "", isbn
 export default function BookForm({ value, onChange, meta }) {
   const toast = useToast();
   const [isbnScan, setIsbnScan] = useState(false);
-  const [looking, setLooking] = useState(false);
   const [gbCover, setGbCover] = useState(null);
   const [coverOpen, setCoverOpen] = useState(false);
   const [coverInit, setCoverInit] = useState(null);
   const set = (k) => (e) => onChange({ ...value, [k]: e.target.value });
-
-  const lookup = async (isbn = value.isbn) => {
-    setIsbnScan(false);
-    if (!isbn) return toast.info("Isi atau scan ISBN dulu");
-    setLooking(true);
-    try {
-      const r = await rpc("books.lookupIsbn", { isbn });
-      onChange({
-        ...value,
-        isbn: r.isbn || isbn,
-        judul: r.judul || value.judul,
-        penulis: r.penulis || value.penulis,
-        penerbit: r.penerbit || value.penerbit,
-        tahun: r.tahun || value.tahun,
-        deskripsi: value.deskripsi || r.deskripsi,
-      });
-      setGbCover(r.cover);
-      toast.success("Data buku ditemukan di Google Books");
-    } catch (e) {
-      onChange({ ...value, isbn });
-      toast.error(e.message);
-    } finally {
-      setLooking(false);
-    }
-  };
 
   return (
     <div className="grid gap-5 sm:grid-cols-[160px_1fr]">
@@ -81,21 +55,21 @@ export default function BookForm({ value, onChange, meta }) {
       </div>
 
       <div className="space-y-3">
-        <Field label="ISBN (opsional, untuk isi otomatis)">
+        <Field label="ISBN (opsional)">
           <div className="flex gap-2">
             <input value={value.isbn} onChange={set("isbn")} inputMode="numeric" placeholder="978..." className={`${inputCls} font-data`} />
             <Button type="button" variant="soft" onClick={() => setIsbnScan((s) => !s)} title="Scan barcode ISBN">
               <ScanBarcode className="h-5 w-5" />
-            </Button>
-            <Button type="button" variant="teal" loading={looking} onClick={() => lookup()} title="Cari data dari ISBN">
-              <Search className="h-5 w-5" />
             </Button>
           </div>
         </Field>
         <AnimatePresence>
           {isbnScan && (
             <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="overflow-hidden">
-              <Scanner mode="isbn" autoStart accent="#0D9488" onResult={(v) => lookup(v.replace(/[^0-9Xx]/g, ""))} />
+              <Scanner mode="isbn" autoStart accent="#0D9488" onResult={(v) => {
+                onChange({ ...value, isbn: v.replace(/[^0-9Xx]/g, "") });
+                setIsbnScan(false);
+              }} />
             </motion.div>
           )}
         </AnimatePresence>

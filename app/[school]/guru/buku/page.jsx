@@ -1,7 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Plus, ScanLine, Pencil, Trash2, Ghost, Undo2, BookPlus, Copy, ArrowLeft } from "lucide-react";
+import { Plus, ScanLine, Pencil, Trash2, Ghost, Undo2, BookPlus, Copy, ArrowLeft, Settings2 } from "lucide-react";
 import { Page } from "@/components/AppShell";
 import GuruHeader from "@/components/GuruHeader";
 import { Button, Cover, Modal, Spinner, Empty, ErrorBox, SearchInput, Select, Chip } from "@/components/ui";
@@ -15,6 +17,7 @@ import Icon from "@/components/Icon";
 import { catIcon } from "@/lib/icons";
 
 export default function GuruBuku() {
+  const slug = useParams().school;
   const [q, setQ] = useState("");
   const [dq, setDq] = useState("");
   const [cat, setCat] = useState("");
@@ -36,9 +39,16 @@ export default function GuruBuku() {
         title="Koleksi Buku"
         sub={data ? `${data.length} judul · ${data.reduce((a, b) => a + b.total, 0)} eksemplar` : "Kelola judul dan eksemplar"}
         actions={
-          <Button variant="teal" icon={ScanLine} onClick={() => setAdding(true)}>
-            Tambah via scan
-          </Button>
+          <>
+            <Link href={`/${slug}/guru/buku/kelola`}>
+              <Button variant="white" icon={Settings2} type="button">
+                Kategori &amp; Rak
+              </Button>
+            </Link>
+            <Button variant="teal" icon={ScanLine} onClick={() => setAdding(true)}>
+              Tambah via scan
+            </Button>
+          </>
         }
       />
       <div className="mb-4 flex flex-col gap-2 sm:flex-row">

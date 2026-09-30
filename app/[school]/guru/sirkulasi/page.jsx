@@ -1,4 +1,5 @@
 "use client";
+import { beep } from "@/lib/beep";
 import { Suspense, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
@@ -90,7 +91,14 @@ function PinjamTab() {
         }
         return q.map((x) => (x.code === c ? { ...p, code: c, qr: p.code } : x));
       });
+      if (p.status === "tersedia") toast.success(`Ditambahkan: ${p.book?.judul || p.judul || c}`);
+      else {
+        beep(false);
+        toast.error(`${p.book?.judul || p.judul || c}: tidak bisa dipinjam (${p.status})`);
+      }
     } catch (e) {
+      beep(false);
+      toast.error(e.message);
       setQueue((q) => q.map((x) => (x.code === c ? { code: c, error: e.message } : x)));
     }
   };
@@ -242,7 +250,9 @@ function KembaliTab() {
       const r = await rpc("guru.returnPreview", { code });
       setPrev(r);
       setKondisi(r.copy?.kondisi || "baik");
+      toast.success(`Ditemukan: ${r.copy?.book?.judul || code}`);
     } catch (e) {
+      beep(false);
       toast.error(e.message);
     } finally {
       setChecking(false);

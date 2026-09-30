@@ -78,6 +78,7 @@ body {
   width: 100% !important;
   height: 100% !important;
   object-fit: cover;
+  transform: var(--mirror, none);
 }
 .scanner-box img[alt="Info icon"],
 .scanner-box #qr-shaded-region {

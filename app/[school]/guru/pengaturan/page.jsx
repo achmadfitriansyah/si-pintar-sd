@@ -5,7 +5,6 @@ import { Save, ImagePlus, Lock } from "lucide-react";
 import { Page, SchoolLogo } from "@/components/AppShell";
 import GuruHeader from "@/components/GuruHeader";
 import { Card, Field, Input, Button, Spinner, ErrorBox } from "@/components/ui";
-import KelolaKatalog from "@/components/KelolaKatalog";
 import PasswordForm from "@/components/PasswordForm";
 import { useToast } from "@/components/Providers";
 import { useSchool } from "@/components/SchoolContext";
@@ -114,9 +113,6 @@ export default function Pengaturan() {
             {demo ? <p className="rounded-2xl bg-amber-50 p-3 text-sm font-semibold text-amber-800">Tidak tersedia di mode demo, supaya login demo tetap admin/admin.</p> : <PasswordForm />}
           </Card>
         </div>
-      </div>
-      <div className="mt-5 grid gap-5 lg:grid-cols-3">
-        <KelolaKatalog />
       </div>
     </Page>
   );

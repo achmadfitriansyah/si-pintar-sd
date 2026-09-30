@@ -160,7 +160,6 @@ function DocScanner({ src, full, autoEnhance, onBack, onDone }) {
   const [fix, setFix] = useState(autoEnhance);
   const [result, setResult] = useState(null); // { url, blob, kb }
   const [busy, setBusy] = useState(false);
-  const drag = useRef(-1);
 
   const initQuad = (w, h, isFull) => {
     const m = isFull ? 0 : 0.08;
@@ -203,13 +202,31 @@ function DocScanner({ src, full, autoEnhance, onBack, onDone }) {
 
   const scale = dims && box.w ? box.w / dims.w : 1;
 
-  const onMove = (e) => {
-    if (drag.current < 0 || !dims) return;
-    const r = e.currentTarget.getBoundingClientRect();
-    const x = Math.max(0, Math.min(dims.w, (e.clientX - r.left) / scale));
-    const y = Math.max(0, Math.min(dims.h, (e.clientY - r.top) / scale));
-    setQuad((q) => q.map((p, i) => (i === drag.current ? [x, y] : p)));
-  };
+  const area = useRef(null);
+  const [dragging, setDragging] = useState(-1);
+  // Geser dipantau di level window supaya tetap mengikuti jari walau keluar dari kotak,
+  // dan tidak terputus oleh gestur scroll/pinch browser.
+  useEffect(() => {
+    if (dragging < 0 || !dims) return;
+    const move = (e) => {
+      const el = area.current;
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      const x = Math.max(0, Math.min(dims.w, (e.clientX - r.left) / scale));
+      const y = Math.max(0, Math.min(dims.h, (e.clientY - r.top) / scale));
+      setQuad((q) => q.map((p, i) => (i === dragging ? [x, y] : p)));
+      e.preventDefault?.();
+    };
+    const up = () => setDragging(-1);
+    window.addEventListener("pointermove", move, { passive: false });
+    window.addEventListener("pointerup", up);
+    window.addEventListener("pointercancel", up);
+    return () => {
+      window.removeEventListener("pointermove", move);
+      window.removeEventListener("pointerup", up);
+      window.removeEventListener("pointercancel", up);
+    };
+  }, [dragging, dims, scale]);
 
   const process = async () => {
     setBusy(true);
@@ -253,11 +270,9 @@ function DocScanner({ src, full, autoEnhance, onBack, onDone }) {
       </p>
       <div ref={wrap} className="flex w-full justify-center">
         <div
+          ref={area}
           className="relative touch-none select-none"
           style={{ width: box.w, height: box.h }}
-          onPointerMove={onMove}
-          onPointerUp={() => (drag.current = -1)}
-          onPointerLeave={() => (drag.current = -1)}
         >
           <img src={src} alt="" className="pointer-events-none h-full w-full rounded-xl" draggable={false} />
           <svg className="absolute inset-0" width={box.w} height={box.h}>
@@ -274,10 +289,10 @@ function DocScanner({ src, full, autoEnhance, onBack, onDone }) {
             <div
               key={i}
               onPointerDown={(e) => {
-                e.currentTarget.parentElement.setPointerCapture(e.pointerId);
-                drag.current = i;
+                e.preventDefault();
+                setDragging(i);
               }}
-              className="absolute flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 cursor-grab items-center justify-center active:cursor-grabbing"
+              className="absolute flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 cursor-grab touch-none items-center justify-center active:cursor-grabbing"
               style={{ left: x, top: y }}
             >
               <motion.span whileTap={{ scale: 1.3 }} className="h-6 w-6 rounded-full border-4 border-white bg-teal-500 shadow-lg" />

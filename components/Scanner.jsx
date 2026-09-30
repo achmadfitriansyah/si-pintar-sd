@@ -1,7 +1,8 @@
 "use client";
 import { useEffect, useId, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Camera, CameraOff, Keyboard, ScanLine, SwitchCamera } from "lucide-react";
+import { Camera, CameraOff, FlipHorizontal2, Keyboard, ScanLine, SwitchCamera } from "lucide-react";
+import { beep } from "@/lib/beep";
 
 /**
  * Scanner kamera + ketik manual.
@@ -22,6 +23,19 @@ export default function Scanner({ onResult, mode = "qr", continuous = false, acc
   const [manual, setManual] = useState("");
   const [camCount, setCamCount] = useState(0);
   const camIdx = useRef(0);
+  const [mirror, setMirror] = useState(false);
+  useEffect(() => {
+    try {
+      setMirror(localStorage.getItem("sp:mirror") === "1");
+    } catch {}
+  }, []);
+  const toggleMirror = () =>
+    setMirror((m) => {
+      try {
+        localStorage.setItem("sp:mirror", m ? "0" : "1");
+      } catch {}
+      return !m;
+    });
 
   const stop = async () => {
     const s = scanner.current;
@@ -42,7 +56,7 @@ export default function Scanner({ onResult, mode = "qr", continuous = false, acc
       const { Html5Qrcode, Html5QrcodeSupportedFormats: F } = await import("html5-qrcode");
       await new Promise((r) => setTimeout(r, 30));
       const formats = mode === "isbn" ? [F.EAN_13, F.EAN_8, F.UPC_A] : [F.QR_CODE, F.CODE_128];
-      const s = new Html5Qrcode(elId, { formatsToSupport: formats, verbose: false });
+      const s = new Html5Qrcode(elId, { formatsToSupport: formats, verbose: false, useBarCodeDetectorIfSupported: true });
       scanner.current = s;
       // HP: kamera belakang. Komputer: webcam yang tersedia (bisa diganti bila ada lebih dari satu).
       const isPhone = navigator.maxTouchPoints > 0 && /Android|iPhone|iPad|Mobile/i.test(navigator.userAgent);
@@ -62,6 +76,7 @@ export default function Scanner({ onResult, mode = "qr", continuous = false, acc
             return mode === "isbn" ? { width: Math.floor(w * 0.85), height: Math.floor(m * 0.4) } : { width: Math.floor(m * 0.7), height: Math.floor(m * 0.7) };
           },
           aspectRatio: 1.333,
+          disableFlip: false, // coba baca gambar terbalik (cermin) juga
         },
         (text) => {
           const code = text.trim();
@@ -69,6 +84,7 @@ export default function Scanner({ onResult, mode = "qr", continuous = false, acc
           if (code === last.current.code && now - last.current.at < 2500) return;
           last.current = { code, at: now };
           navigator.vibrate?.(60);
+          beep(true);
           setFlash((f) => f + 1);
           cb.current(code);
           if (!continuous) stop();
@@ -107,7 +123,7 @@ export default function Scanner({ onResult, mode = "qr", continuous = false, acc
   return (
     <div className="mx-auto w-full lg:max-w-2xl">
       <div className="relative overflow-hidden rounded-3xl bg-slate-900" style={{ aspectRatio: on ? "4 / 3" : undefined }}>
-        <div id={elId} className={`scanner-box absolute inset-0 ${on ? "" : "hidden"}`} />
+        <div id={elId} className={`scanner-box absolute inset-0 ${on ? "" : "hidden"}`} style={mirror ? { "--mirror": "scaleX(-1)" } : undefined} />
         {on && (
           <>
             <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
@@ -119,7 +135,7 @@ export default function Scanner({ onResult, mode = "qr", continuous = false, acc
               </div>
             </div>
             <AnimatePresence>
-              <motion.div key={flash} initial={{ opacity: flash ? 0.6 : 0 }} animate={{ opacity: 0 }} transition={{ duration: 0.4 }} className="pointer-events-none absolute inset-0 bg-white" />
+              <motion.div key={flash} initial={{ opacity: flash ? 0.6 : 0 }} animate={{ opacity: 0 }} transition={{ duration: 0.4 }} className="pointer-events-none absolute inset-0 bg-emerald-300" />
             </AnimatePresence>
             {camCount > 1 && (
               <button
@@ -133,6 +149,9 @@ export default function Scanner({ onResult, mode = "qr", continuous = false, acc
                 <SwitchCamera className="h-4 w-4" /> Ganti kamera
               </button>
             )}
+            <button onClick={toggleMirror} aria-pressed={mirror} className={`absolute bottom-3 left-3 flex items-center gap-1 rounded-full px-3 py-1.5 text-xs font-bold text-white backdrop-blur active:scale-95 ${mirror ? "bg-emerald-600/80" : "bg-black/50"}`}>
+              <FlipHorizontal2 className="h-4 w-4" /> Cermin
+            </button>
             <button onClick={stop} className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-black/50 px-3 py-1.5 text-xs font-bold text-white backdrop-blur active:scale-95">
               <CameraOff className="h-4 w-4" /> Tutup
             </button>

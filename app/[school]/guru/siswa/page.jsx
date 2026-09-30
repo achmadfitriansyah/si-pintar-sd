@@ -1,7 +1,9 @@
 "use client";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { UserPlus, Upload, ArrowUpCircle, Pencil, Trash2, Download, FileSpreadsheet, Undo2, Ban, KeyRound } from "lucide-react";
+import Link from "next/link";
+import { useParams } from "next/navigation";
+import { Trophy, UserPlus, Upload, ArrowUpCircle, Pencil, Trash2, Download, FileSpreadsheet, Undo2, Ban, KeyRound } from "lucide-react";
 import { Page } from "@/components/AppShell";
 import GuruHeader from "@/components/GuruHeader";
 import { Button, Modal, Spinner, Empty, ErrorBox, SearchInput, Select, Field, Input, Chip, Tabs } from "@/components/ui";
@@ -13,6 +15,7 @@ import { TINGKAT } from "@/lib/rules";
 import Icon from "@/components/Icon";
 
 export default function GuruSiswa() {
+  const slug = useParams().school;
   const toast = useToast();
   const confirm = useConfirm();
   const [status, setStatus] = useState("aktif");
@@ -80,6 +83,11 @@ export default function GuruSiswa() {
         sub={data ? `${data.length} siswa ${status}` : "NISN, nama, dan kelas"}
         actions={
           <>
+            <Link href={`/${slug}/guru/siswa/peringkat`}>
+              <Button variant="white" icon={Trophy} type="button">
+                Peringkat kelas
+              </Button>
+            </Link>
             <Button variant="teal" icon={UserPlus} onClick={() => setForm({ nisn: "", nama: "", kelas: "" })}>
               Tambah
             </Button>
