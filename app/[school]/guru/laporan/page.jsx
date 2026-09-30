@@ -29,7 +29,7 @@ export default function Laporan() {
   return (
     <Page>
       <GuruHeader
-        emoji="📄"
+        icon="status/laporan"
         title="Laporan Bulanan"
         sub="Ringkasan sirkulasi untuk kepala sekolah atau dinas"
         actions={
@@ -99,7 +99,7 @@ export default function Laporan() {
                   ))}
                 </div>
               ) : (
-                <p className="rounded-2xl bg-emerald-50 p-3 text-sm font-semibold text-emerald-700">Tidak ada buku hilang atau rusak berat 🎉</p>
+                <p className="rounded-2xl bg-emerald-50 p-3 text-sm font-semibold text-emerald-700">Tidak ada buku hilang atau rusak berat</p>
               )}
             </Card>
           </div>

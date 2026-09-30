@@ -12,6 +12,7 @@ import { useToast, useConfirm } from "@/components/Providers";
 import { useRpc, rpc } from "@/lib/client";
 import { fmtDate, fmtShort } from "@/lib/time";
 import { KONDISI } from "@/lib/rules";
+import Icon from "@/components/Icon";
 
 export default function SirkulasiPage() {
   return (
@@ -26,7 +27,7 @@ function Sirkulasi() {
   const [tab, setTab] = useState(sp.get("tab") || "pinjam");
   return (
     <Page>
-      <GuruHeader emoji="🔄" title="Sirkulasi" sub="Catat peminjaman dan pengembalian buku" />
+      <GuruHeader icon="status/sirkulasi" title="Sirkulasi" sub="Catat peminjaman dan pengembalian buku" />
       <div className="mx-auto max-w-5xl space-y-5">
         <Tabs
           id="sirk"
@@ -81,7 +82,14 @@ function PinjamTab() {
     setQueue((q) => [...q, tmp]);
     try {
       const p = await rpc("loan.preview", { code: c });
-      setQueue((q) => q.map((x) => (x.code === c ? { ...p, code: c } : x)));
+      setQueue((q) => {
+        // buku yang sama bisa dimasukkan lewat QR maupun nomor stiker: jangan dobel
+        if (q.some((x) => x.code !== c && x.qr === p.code)) {
+          toast.info("Buku ini sudah ada di daftar");
+          return q.filter((x) => x.code !== c);
+        }
+        return q.map((x) => (x.code === c ? { ...p, code: c, qr: p.code } : x));
+      });
     } catch (e) {
       setQueue((q) => q.map((x) => (x.code === c ? { code: c, error: e.message } : x)));
     }
@@ -176,7 +184,7 @@ function PinjamTab() {
         <div className="mb-3 flex items-center gap-2 font-display text-lg font-bold">
           <span className="flex h-7 w-7 items-center justify-center rounded-full bg-guru text-sm text-white">2</span> Scan buku
         </div>
-        {st ? <Scanner onResult={addCode} continuous accent="#0D9488" hint="Bisa scan beberapa buku berturut-turut" /> : <div className="rounded-2xl bg-slate-100 p-6 text-center text-sm text-slate-500">Cari siswa dulu</div>}
+        {st ? <Scanner onResult={addCode} continuous accent="#0D9488" hint="Scan QR di buku, atau ketik nomor stiker. Bisa beberapa buku berturut-turut." placeholder="Ketik nomor stiker" /> : <div className="rounded-2xl bg-slate-100 p-6 text-center text-sm text-slate-500">Cari siswa dulu</div>}
       </Card>
 
       {queue.length > 0 && (
@@ -186,7 +194,7 @@ function PinjamTab() {
             <AnimatePresence>
               {queue.map((q) => (
                 <motion.div key={q.code} layout initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, x: 40 }} className={`flex items-center gap-3 rounded-2xl p-2.5 ${q.status === "tersedia" ? "bg-slate-50" : "bg-red-50"}`}>
-                  <Cover src={q.book?.cover_url} alt={q.book?.judul || q.code} className="w-10 shrink-0" rounded="rounded-md" />
+                  <Cover src={q.book?.cover_url} alt={q.book?.judul || q.label || q.code} className="w-10 shrink-0" rounded="rounded-md" />
                   <div className="min-w-0 flex-1">
                     <div className="truncate text-sm font-bold">{q.loading ? "Memeriksa..." : q.book?.judul || q.code}</div>
                     <div className="text-xs">
@@ -197,7 +205,7 @@ function PinjamTab() {
                       ) : q.status === "hilang" ? (
                         <span className="font-semibold text-red-600">Tercatat hilang</span>
                       ) : (
-                        <span className="font-data text-slate-500">{q.code}</span>
+                        <span className="font-data text-slate-500">{q.label || q.code}</span>
                       )}
                     </div>
                   </div>
@@ -264,19 +272,19 @@ function KembaliTab() {
       <Confetti show={party > 0} key={party} count={18} />
       <Card>
         <div className="mb-3 font-display text-lg font-bold">Scan buku yang dikembalikan</div>
-        <Scanner onResult={check} continuous busy={checking} accent="#2563EB" hint="Tidak perlu NISN. Data peminjam muncul otomatis." />
+        <Scanner onResult={check} continuous busy={checking} accent="#2563EB" hint="Tidak perlu NISN. Data peminjam muncul otomatis." placeholder="Ketik nomor stiker" />
       </Card>
 
       <div className="space-y-4">
         <AnimatePresence mode="wait">
           {prev ? (
-            <motion.div key={prev.copy?.qr_code} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -30 }}>
+            <motion.div key={prev.copy?.label || prev.copy?.qr_code} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -30 }}>
               <Card>
                 <div className="flex gap-4">
                   <Cover src={prev.copy?.book?.cover_url} alt={prev.copy?.book?.judul} className="w-20 shrink-0 shadow-card" rounded="rounded-xl" />
                   <div className="min-w-0 flex-1">
                     <div className="font-display text-lg font-bold leading-tight">{prev.copy?.book?.judul}</div>
-                    <div className="font-data text-xs text-slate-400">{prev.copy?.qr_code}</div>
+                    <div className="font-data text-xs text-slate-400">{prev.copy?.label || prev.copy?.qr_code}</div>
                     {prev.loan && (
                       <div className="mt-2 text-sm">
                         <div className="font-bold">
@@ -292,7 +300,7 @@ function KembaliTab() {
                 {prev.loan ? (
                   <>
                     <motion.div initial={{ scale: 0.9 }} animate={{ scale: 1 }} className={`mt-4 rounded-2xl p-3 text-center font-display text-lg font-bold ${prev.loan.late ? "bg-red-50 text-red-700" : "bg-emerald-50 text-emerald-700"}`}>
-                      {prev.loan.late ? `Terlambat ${prev.loan.late} hari` : "Tepat waktu 👍"}
+                      {prev.loan.late ? `Terlambat ${prev.loan.late} hari` : "Tepat waktu"}
                     </motion.div>
                     <div className="mt-4 text-xs font-bold uppercase tracking-wide text-slate-500">Kondisi buku</div>
                     <div className="mt-2 grid grid-cols-3 gap-2">
@@ -319,7 +327,7 @@ function KembaliTab() {
           ) : (
             <motion.div key="empty" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
               <Card className="text-center">
-                <div className="animate-float text-5xl">📥</div>
+                <Icon name="status/diterima" size={72} className="animate-float" />
                 <div className="mt-2 font-display font-bold">Siap menerima buku</div>
                 <p className="text-sm text-slate-500">Scan stiker QR buku yang dikembalikan.</p>
               </Card>
@@ -359,7 +367,7 @@ function AktifTab() {
     if (!data) return [];
     const s = q.toLowerCase();
     return data.filter(
-      (l) => (!lateOnly || l.late > 0) && (!s || [l.student?.nama, l.student?.nisn, l.book?.judul, l.copy?.qr_code].some((v) => String(v || "").toLowerCase().includes(s)))
+      (l) => (!lateOnly || l.late > 0) && (!s || [l.student?.nama, l.student?.nisn, l.book?.judul, l.copy?.label, l.copy?.qr_code].some((v) => String(v || "").toLowerCase().includes(s)))
     );
   }, [data, q, lateOnly]);
 
@@ -387,7 +395,7 @@ function AktifTab() {
         </button>
       </div>
       {rows.length === 0 ? (
-        <Empty emoji="✨" title="Tidak ada data" text={data.length ? "Coba kata kunci lain." : "Belum ada buku yang dipinjam."} />
+        <Empty icon="status/kosong" title="Tidak ada data" text={data.length ? "Coba kata kunci lain." : "Belum ada buku yang dipinjam."} />
       ) : (
         <div className="grid gap-2 lg:grid-cols-2">
           {rows.map((l, i) => (
@@ -396,7 +404,7 @@ function AktifTab() {
               <div className="min-w-0 flex-1">
                 <div className="truncate text-sm font-bold">{l.book?.judul}</div>
                 <div className="truncate text-xs text-slate-500">
-                  {l.student?.nama} · {l.student?.kelas} · <span className="font-data">{l.copy?.qr_code}</span>
+                  {l.student?.nama} · {l.student?.kelas} · <span className="font-data">{l.copy?.label || l.copy?.qr_code}</span>
                 </div>
                 <div className="mt-1">{l.late > 0 ? <Chip className="bg-red-100 text-red-700">Terlambat {l.late} hari</Chip> : <Chip className="bg-slate-100 text-slate-600">s/d {fmtShort(l.due_date)}</Chip>}</div>
               </div>

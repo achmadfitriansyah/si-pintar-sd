@@ -8,6 +8,7 @@ import { Card, Button, Modal, Field, Input, Select, Spinner, ErrorBox, Chip, Pro
 import { useToast, useConfirm } from "@/components/Providers";
 import { useRpc, rpc } from "@/lib/client";
 import { dateStr, weekKey, addDays, fmtShort } from "@/lib/time";
+import Icon from "@/components/Icon";
 
 export default function GuruTantangan() {
   const toast = useToast();
@@ -30,7 +31,7 @@ export default function GuruTantangan() {
   return (
     <Page>
       <GuruHeader
-        emoji="🏆"
+        icon="tantangan/umum"
         title="Tantangan"
         sub="Buat tantangan mingguan sendiri dan pantau tantangan kelas"
         actions={
@@ -55,7 +56,7 @@ export default function GuruTantangan() {
                 <div className="space-y-2">
                   {d.list.map((c, i) => (
                     <motion.div key={c.id} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.04 }} className={`flex items-center gap-3 rounded-2xl p-3 ${c.state === "aktif" ? "bg-teal-50" : "bg-slate-50 opacity-70"}`}>
-                      <div className="text-2xl">🧑‍🏫</div>
+                      <Icon name="tantangan/guru" size={32} />
                       <div className="min-w-0 flex-1">
                         <div className="truncate text-sm font-bold">{c.title}</div>
                         <div className="text-xs text-slate-500">
@@ -80,7 +81,7 @@ export default function GuruTantangan() {
               <div className="space-y-2">
                 {d.weekly.map((w) => (
                   <div key={w.id} className="flex items-center gap-3 rounded-2xl bg-slate-50 p-3">
-                    <span className="text-2xl">{w.emoji}</span>
+                    <Icon name={w.icon} size={32} />
                     <span className="min-w-0 flex-1 text-sm font-semibold">{w.title}</span>
                     <Chip className="shrink-0 bg-amber-100 text-amber-700">+{w.points}</Chip>
                   </div>
@@ -100,7 +101,7 @@ export default function GuruTantangan() {
                       Kelas {c.kelas} <span className="font-normal text-slate-400">({c.size} siswa)</span>
                     </span>
                     <span className="font-data text-xs font-bold">
-                      {c.value}/{c.target} {c.value >= c.target ? "🎉" : ""}
+                      {c.value}/{c.target}
                     </span>
                   </div>
                   <ProgressBar value={c.value} max={c.target} color={c.value >= c.target ? "#10B981" : "#0D9488"} height={10} delay={i * 0.05} />
@@ -113,6 +114,27 @@ export default function GuruTantangan() {
       )}
       <ChallengeForm open={open} onClose={() => setOpen(false)} meta={meta} books={d?.books || []} onSaved={() => reload(true)} />
     </Page>
+  );
+}
+
+function Seg({ value, onPick, opts }) {
+  return (
+    <div className="grid gap-1 rounded-2xl bg-slate-100 p-1" style={{ gridTemplateColumns: `repeat(${opts.length}, minmax(0, 1fr))` }}>
+      {opts.map(([v, l]) => (
+        <button key={v} type="button" onClick={() => onPick(v)} className={`rounded-xl px-2 py-2 text-sm font-bold leading-tight transition ${value === v ? "bg-white text-slate-900 shadow-soft" : "text-slate-500"}`}>
+          {l}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function Group({ label, children }) {
+  return (
+    <div>
+      <div className="mb-1 text-xs font-bold uppercase tracking-wide text-slate-500">{label}</div>
+      {children}
+    </div>
   );
 }
 
@@ -159,16 +181,6 @@ function ChallengeForm({ open, onClose, meta, books, onSaved }) {
     }
   };
 
-  const Seg = ({ k, opts }) => (
-    <div className="flex gap-1 rounded-2xl bg-slate-100 p-1">
-      {opts.map(([v, l]) => (
-        <button key={v} type="button" onClick={() => set(k, v)} className={`flex-1 rounded-xl py-2 text-sm font-bold transition ${f[k] === v ? "bg-white text-slate-900 shadow-soft" : "text-slate-500"}`}>
-          {l}
-        </button>
-      ))}
-    </div>
-  );
-
   return (
     <Modal
       open={open}
@@ -188,18 +200,18 @@ function ChallengeForm({ open, onClose, meta, books, onSaved }) {
             +{f.points} poin · {f.kelas ? `Kelas ${f.kelas}` : "Semua kelas"}
           </div>
         </motion.div>
-        <Field label="Aksi">
-          <Seg k="action" opts={[["pinjam", "Pinjam"], ["kembali", "Kembalikan tepat waktu"]]} />
-        </Field>
-        <Field label="Buku">
-          <Seg k="filter" opts={[["any", "Apa saja"], ["category", "Kategori"], ["book", "Judul tertentu"]]} />
-        </Field>
+        <Group label="Aksi">
+          <Seg value={f.action} onPick={(v) => set("action", v)} opts={[["pinjam", "Pinjam"], ["kembali", "Kembali tepat waktu"]]} />
+        </Group>
+        <Group label="Buku">
+          <Seg value={f.filter} onPick={(v) => set("filter", v)} opts={[["any", "Apa saja"], ["category", "Kategori"], ["book", "Judul tertentu"]]} />
+        </Group>
         {f.filter === "category" && (
           <Select value={f.category_id} onChange={(e) => set("category_id", e.target.value)}>
             <option value="">Pilih kategori</option>
             {meta?.categories?.map((c) => (
               <option key={c.id} value={c.id}>
-                {c.emoji} {c.nama}
+                {c.nama}
               </option>
             ))}
           </Select>
@@ -238,9 +250,9 @@ function ChallengeForm({ open, onClose, meta, books, onSaved }) {
             ))}
           </Select>
         </Field>
-        <Field label="Berlaku">
-          <Seg k="period" opts={[["week", "Minggu ini"], ["custom", "Pilih tanggal"]]} />
-        </Field>
+        <Group label="Berlaku">
+          <Seg value={f.period} onPick={(v) => set("period", v)} opts={[["week", "Minggu ini"], ["custom", "Pilih tanggal"]]} />
+        </Group>
         {f.period === "custom" && (
           <div className="grid grid-cols-2 gap-2">
             <Input type="date" value={f.start_date} onChange={(e) => set("start_date", e.target.value)} />

@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useId, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Camera, CameraOff, Keyboard, ScanLine } from "lucide-react";
+import { Camera, CameraOff, Keyboard, ScanLine, SwitchCamera } from "lucide-react";
 
 /**
  * Scanner kamera + ketik manual.
@@ -20,6 +20,8 @@ export default function Scanner({ onResult, mode = "qr", continuous = false, acc
   const [err, setErr] = useState("");
   const [flash, setFlash] = useState(0);
   const [manual, setManual] = useState("");
+  const [camCount, setCamCount] = useState(0);
+  const camIdx = useRef(0);
 
   const stop = async () => {
     const s = scanner.current;
@@ -42,8 +44,17 @@ export default function Scanner({ onResult, mode = "qr", continuous = false, acc
       const formats = mode === "isbn" ? [F.EAN_13, F.EAN_8, F.UPC_A] : [F.QR_CODE, F.CODE_128];
       const s = new Html5Qrcode(elId, { formatsToSupport: formats, verbose: false });
       scanner.current = s;
+      // HP: kamera belakang. Komputer: webcam yang tersedia (bisa diganti bila ada lebih dari satu).
+      const isPhone = navigator.maxTouchPoints > 0 && /Android|iPhone|iPad|Mobile/i.test(navigator.userAgent);
+      let cams = [];
+      try {
+        cams = await Html5Qrcode.getCameras();
+      } catch {}
+      setCamCount(cams.length);
+      let source = { facingMode: "environment" };
+      if (!isPhone) source = cams.length ? cams[camIdx.current % cams.length].id : { facingMode: "user" };
       await s.start(
-        { facingMode: "environment" },
+        source,
         {
           fps: 12,
           qrbox: (w, h) => {
@@ -70,7 +81,7 @@ export default function Scanner({ onResult, mode = "qr", continuous = false, acc
         /permission|NotAllowed/i.test(msg)
           ? "Izin kamera ditolak. Buka pengaturan browser, izinkan kamera untuk situs ini, lalu coba lagi."
           : /NotFound|Requested device/i.test(msg)
-          ? "Kamera tidak ditemukan di perangkat ini. Ketik kodenya saja di bawah."
+          ? "Kamera tidak ditemukan di perangkat ini. Sambungkan webcam, atau ketik kodenya di bawah."
           : "Kamera tidak bisa dibuka. Pastikan membuka lewat https dan tidak dipakai aplikasi lain."
       );
       await stop();
@@ -94,7 +105,7 @@ export default function Scanner({ onResult, mode = "qr", continuous = false, acc
   };
 
   return (
-    <div className="w-full">
+    <div className="mx-auto w-full lg:max-w-2xl">
       <div className="relative overflow-hidden rounded-3xl bg-slate-900" style={{ aspectRatio: on ? "4 / 3" : undefined }}>
         <div id={elId} className={`scanner-box absolute inset-0 ${on ? "" : "hidden"}`} />
         {on && (
@@ -110,6 +121,18 @@ export default function Scanner({ onResult, mode = "qr", continuous = false, acc
             <AnimatePresence>
               <motion.div key={flash} initial={{ opacity: flash ? 0.6 : 0 }} animate={{ opacity: 0 }} transition={{ duration: 0.4 }} className="pointer-events-none absolute inset-0 bg-white" />
             </AnimatePresence>
+            {camCount > 1 && (
+              <button
+                onClick={async () => {
+                  camIdx.current += 1;
+                  await stop();
+                  start();
+                }}
+                className="absolute left-3 top-3 flex items-center gap-1 rounded-full bg-black/50 px-3 py-1.5 text-xs font-bold text-white backdrop-blur active:scale-95"
+              >
+                <SwitchCamera className="h-4 w-4" /> Ganti kamera
+              </button>
+            )}
             <button onClick={stop} className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-black/50 px-3 py-1.5 text-xs font-bold text-white backdrop-blur active:scale-95">
               <CameraOff className="h-4 w-4" /> Tutup
             </button>

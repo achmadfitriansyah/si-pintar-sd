@@ -1,14 +1,16 @@
 "use client";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { UserPlus, Upload, ArrowUpCircle, Pencil, Trash2, Download, FileSpreadsheet, Undo2, Ban } from "lucide-react";
+import { UserPlus, Upload, ArrowUpCircle, Pencil, Trash2, Download, FileSpreadsheet, Undo2, Ban, KeyRound } from "lucide-react";
 import { Page } from "@/components/AppShell";
 import GuruHeader from "@/components/GuruHeader";
-import { Button, Modal, Spinner, Empty, ErrorBox, SearchInput, Select, Field, Input, Chip, Tabs, BadgeMedal } from "@/components/ui";
+import { Button, Modal, Spinner, Empty, ErrorBox, SearchInput, Select, Field, Input, Chip, Tabs } from "@/components/ui";
 import { useToast, useConfirm } from "@/components/Providers";
 import { useSchool } from "@/components/SchoolContext";
 import { useRpc, rpc, initials } from "@/lib/client";
 import { fmtDate } from "@/lib/time";
+import { TINGKAT, ROMBEL } from "@/lib/rules";
+import Icon from "@/components/Icon";
 
 export default function GuruSiswa() {
   const toast = useToast();
@@ -25,8 +27,16 @@ export default function GuruSiswa() {
   const rows = useMemo(() => {
     if (!data) return [];
     const s = q.toLowerCase();
-    return data.filter((r) => (!kelas || r.kelas === kelas) && (!s || r.nama.toLowerCase().includes(s) || r.nisn.includes(s)));
+    return data
+      .filter((r) => (!kelas || r.kelas === kelas) && (!s || r.nama.toLowerCase().includes(s) || r.nisn.includes(s)))
+      .sort((a, b) => a.kelas.localeCompare(b.kelas) || a.nama.localeCompare(b.nama));
   }, [data, q, kelas]);
+  // daftar dipisah per kelas, dengan judul di tiap kelompok
+  const groups = useMemo(() => {
+    const m = new Map();
+    rows.forEach((r) => m.set(r.kelas, [...(m.get(r.kelas) || []), r]));
+    return [...m];
+  }, [rows]);
 
   const refresh = () => {
     reload(true);
@@ -65,7 +75,7 @@ export default function GuruSiswa() {
   return (
     <Page>
       <GuruHeader
-        emoji="🧒"
+        icon="status/siswa-banyak"
         title="Data Siswa"
         sub={data ? `${data.length} siswa ${status}` : "NISN, nama, dan kelas"}
         actions={
@@ -101,7 +111,7 @@ export default function GuruSiswa() {
       ) : loading && !data ? (
         <Spinner />
       ) : rows.length === 0 ? (
-        <Empty emoji="🧑‍🎓" title={data.length ? "Tidak ada yang cocok" : "Belum ada siswa"} text={data.length ? "Coba kata kunci lain." : "Tambah satu per satu atau impor dari Excel."} />
+        <Empty icon="status/siswa-banyak" title={data.length ? "Tidak ada yang cocok" : "Belum ada siswa"} text={data.length ? "Coba kata kunci lain." : "Tambah satu per satu atau impor dari Excel."} />
       ) : (
         <>
           {/* Tabel (layar lebar) */}
@@ -116,7 +126,13 @@ export default function GuruSiswa() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                {rows.map((s, i) => (
+                {groups.flatMap(([k, list]) => [
+                  <tr key={`h-${k}`} className="bg-teal-50/60">
+                    <td colSpan={4} className="px-5 py-2 text-xs font-bold uppercase tracking-wide text-teal-700">
+                      Kelas {k} · {list.length} siswa
+                    </td>
+                  </tr>,
+                  ...list.map((s, i) => (
                   <motion.tr key={s.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: Math.min(i, 20) * 0.015 }} className="hover:bg-slate-50">
                     <td className="px-5 py-3">
                       <button onClick={() => setDetail(s.id)} className="flex items-center gap-3 font-semibold hover:text-guru">
@@ -135,13 +151,18 @@ export default function GuruSiswa() {
                       </div>
                     </td>
                   </motion.tr>
-                ))}
+                  )),
+                ])}
               </tbody>
             </table>
           </div>
           {/* Kartu (HP) */}
           <div className="space-y-2 md:hidden">
-            {rows.map((s, i) => (
+            {groups.flatMap(([k, list]) => [
+              <div key={`h-${k}`} className="px-1 pt-3 text-xs font-bold uppercase tracking-wide text-teal-700">
+                Kelas {k} · {list.length} siswa
+              </div>,
+              ...list.map((s, i) => (
               <motion.div key={s.id} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: Math.min(i, 12) * 0.03 }} className="flex items-center gap-3 rounded-2xl bg-white p-3 shadow-soft">
                 <button onClick={() => setDetail(s.id)} className="flex min-w-0 flex-1 items-center gap-3 text-left">
                   <Avatar name={s.nama} />
@@ -155,7 +176,8 @@ export default function GuruSiswa() {
                 <RowBtn icon={Pencil} onClick={() => setForm(s)} />
                 <RowBtn icon={Trash2} danger onClick={() => del(s)} />
               </motion.div>
-            ))}
+              )),
+            ])}
           </div>
         </>
       )}
@@ -187,8 +209,13 @@ function StudentForm({ value, onClose, onSaved, classes }) {
   useEffect(() => {
     if (value) setF(value);
   }, [value]);
+  const m = String(f.kelas || "").match(/^(\d)([A-Z]?)/);
+  const tingkat = m ? m[1] : "";
+  const rombel = m ? m[2] : "";
+  const setKelas = (t, r) => setF({ ...f, kelas: t ? `${t}${r}` : "" });
 
   const save = async () => {
+    if (!tingkat || !rombel) return toast.error("Pilih tingkat dan rombel kelas");
     setSaving(true);
     try {
       await rpc("guru.saveStudent", f);
@@ -220,13 +247,25 @@ function StudentForm({ value, onClose, onSaved, classes }) {
         <Field label="Nama lengkap">
           <Input value={f.nama || ""} onChange={(e) => setF({ ...f, nama: e.target.value })} />
         </Field>
-        <Field label="Kelas" hint="Contoh: 1A, 2B, 6C">
-          <Input value={f.kelas || ""} list="kelas-list" onChange={(e) => setF({ ...f, kelas: e.target.value.toUpperCase().replace(/\s/g, "").slice(0, 3) })} />
-          <datalist id="kelas-list">
-            {classes.map((k) => (
-              <option key={k} value={k} />
-            ))}
-          </datalist>
+        <Field label="Kelas">
+          <div className="grid grid-cols-2 gap-2">
+            <Select value={tingkat} onChange={(e) => setKelas(e.target.value, rombel)} aria-label="Tingkat">
+              <option value="">Tingkat</option>
+              {TINGKAT.map((t) => (
+                <option key={t} value={t}>
+                  Kelas {t}
+                </option>
+              ))}
+            </Select>
+            <Select value={rombel} onChange={(e) => setKelas(tingkat, e.target.value)} aria-label="Rombel">
+              <option value="">Rombel</option>
+              {ROMBEL.map((r) => (
+                <option key={r} value={r}>
+                  {r}
+                </option>
+              ))}
+            </Select>
+          </div>
         </Field>
         {!f.id && <p className="text-xs text-slate-500">Siswa dan orang tua login memakai NISN ini dengan password awal 123456.</p>}
       </div>
@@ -294,14 +333,14 @@ function ImportModal({ open, onClose, onDone }) {
       const seen = new Set();
       const out = aoa
         .slice(1)
-        .map((r, idx) => ({ row: idx + 2, nisn: String(r[iN]).trim(), nama: String(r[iM]).trim().replace(/\s+/g, " "), kelas: String(r[iK]).trim().toUpperCase().replace(/\s/g, "") }))
+        .map((r, idx) => ({ row: idx + 2, nisn: String(r[iN]).trim(), nama: String(r[iM]).trim().replace(/\s+/g, " "), kelas: String(r[iK]).trim().toUpperCase().replace(/^KELAS/, "").replace(/[\s.\-_]/g, "") }))
         .filter((r) => r.nisn || r.nama || r.kelas)
         .filter((r) => !(r.nisn === "0012345678" && r.nama === "Contoh Nama Siswa"))
         .map((r) => {
           const err = [];
           if (!/^\d{10}$/.test(r.nisn)) err.push(/^\d{1,9}$/.test(r.nisn) ? `NISN ${r.nisn.length} digit (0 di depan hilang?)` : "NISN harus 10 digit");
           if (r.nama.length < 2) err.push("Nama kosong");
-          if (!/^[1-6][A-Z]{0,2}$/.test(r.kelas)) err.push("Kelas tidak valid");
+          if (!/^[1-6][A-Z]$/.test(r.kelas)) err.push("Kelas harus seperti 2A (angka 1-6 lalu huruf)");
           if (seen.has(r.nisn)) err.push("NISN dobel di file");
           seen.add(r.nisn);
           return { ...r, err, dup: existing.has(r.nisn) };
@@ -457,6 +496,17 @@ function StudentDetail({ id, onClose }) {
     }
   };
 
+  const resetPin = async () => {
+    const ok = await confirm({ title: "Reset password?", message: `Password ${d.student.nama} dan orang tuanya kembali menjadi 123456.`, ok: "Reset" });
+    if (!ok) return;
+    try {
+      await rpc("guru.resetPin", { id });
+      toast.success("Password dikembalikan ke 123456");
+    } catch (err) {
+      toast.error(err.message);
+    }
+  };
+
   return (
     <Modal open={!!id} onClose={onClose} title="Detail siswa" wide>
       {!d ? (
@@ -464,7 +514,9 @@ function StudentDetail({ id, onClose }) {
       ) : (
         <div className="space-y-5">
           <div className="flex items-center gap-4">
-            <div className="flex h-16 w-16 items-center justify-center rounded-3xl bg-teal-100 text-4xl">{d.level.emoji}</div>
+            <div className="flex h-16 w-16 items-center justify-center rounded-3xl bg-teal-100">
+              <Icon name={d.level.icon} size={48} />
+            </div>
             <div>
               <div className="font-display text-2xl font-bold">{d.student.nama}</div>
               <div className="text-sm text-slate-500">
@@ -472,18 +524,14 @@ function StudentDetail({ id, onClose }) {
               </div>
             </div>
           </div>
+          <Button variant="soft" icon={KeyRound} onClick={resetPin} className="w-full sm:w-auto">
+            Reset password ke 123456
+          </Button>
           <div className="grid grid-cols-3 gap-2 text-center">
             <Count n={d.total} label="Total poin" cls="bg-amber-50 text-amber-700" />
             <Count n={d.month} label="Bulan ini" cls="bg-teal-50 text-teal-700" />
             <Count n={d.loans.length} label="Peminjaman" cls="bg-violet-50 text-violet-700" />
           </div>
-          {d.badges.length > 0 && (
-            <div className="flex flex-wrap gap-2">
-              {d.badges.map((b) => (
-                <BadgeMedal key={b.id} badge={b} size={44} />
-              ))}
-            </div>
-          )}
           <div>
             <div className="mb-2 font-display font-bold">Riwayat poin</div>
             <div className="max-h-72 space-y-1.5 overflow-y-auto">

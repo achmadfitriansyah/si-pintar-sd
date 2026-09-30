@@ -348,3 +348,10 @@ select setval(pg_get_serial_sequence('books','id'),       (select max(id) from b
 select setval(pg_get_serial_sequence('book_copies','id'), (select max(id) from book_copies));
 select setval(pg_get_serial_sequence('students','id'),    (select max(id) from students));
 select setval(pg_get_serial_sequence('loans','id'),       (select max(id) from loans));
+
+-- ---------- Nomor stiker terpisah dari isi QR ----------
+-- Di data contoh, kode DEMO-xxxx menjadi NOMOR STIKER, dan tiap eksemplar mendapat isi QR acak sendiri.
+update book_copies
+   set label = qr_code,
+       qr_code = 'SP' || upper(replace(substr(gen_random_uuid()::text, 1, 13), '-', ''))
+ where label is null;

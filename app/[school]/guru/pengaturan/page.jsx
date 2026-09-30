@@ -59,7 +59,7 @@ export default function Pengaturan() {
 
   return (
     <Page>
-      <GuruHeader emoji="⚙️" title="Pengaturan" sub="Identitas sekolah, aturan pinjam, dan keamanan" />
+      <GuruHeader icon="status/pengaturan" title="Pengaturan" sub="Identitas sekolah, aturan pinjam, dan keamanan" />
       <div className="grid gap-5 lg:grid-cols-2">
         <Card>
           <div className="mb-4 font-display text-lg font-bold">Identitas sekolah</div>

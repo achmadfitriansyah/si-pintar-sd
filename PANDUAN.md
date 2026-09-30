@@ -146,3 +146,15 @@ Checklist:
 - Aplikasi Android di Play Store (bungkus web ini + scanner native)
 - Login pakai tanggal lahir / PIN, satu akun ortu untuk beberapa anak
 - Sanksi keterlambatan, e-book
+
+---
+
+## G. Update besar: nomor stiker, password, ikon
+
+**Database yang sudah berjalan** wajib menjalankan `supabase/03-migrasi-qr-label-password.sql` (SQL Editor Supabase, aman dijalankan berulang). Database baru cukup 00 → 01 → 02.
+
+- **QR vs nomor stiker**: QR = "sidik jari" buku (acak, tidak untuk dibaca manusia). Nomor stiker (mis. `0001`) = nama buku yang tercetak di stiker. Guru bisa scan QR atau mengetik nomor stiker. Siswa tidak meminjam sendiri; peminjaman hanya lewat guru.
+- **Password**: default siswa/orang tua `123456`, tidak dipaksa ganti. Siswa dan orang tua punya password terpisah dan bisa ganti sendiri (ikon kunci di pojok). Guru bisa reset lewat menu Siswa. Akun Demo tidak bisa ganti password.
+- **Kelas**: dipilih lewat dropdown Tingkat (1–6) + Rombel (A–F). Daftar rombel belum bisa diatur per sekolah.
+- **Ikon**: semua ikon buatan sendiri, satu file SVG per ikon di `public/ikon/<grup>/<nama>.svg`.
+- Setelah migrasi, simpan ulang checkpoint "Awal" di `/demo/checkpoint`.

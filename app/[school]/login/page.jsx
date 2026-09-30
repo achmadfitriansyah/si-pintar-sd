@@ -8,11 +8,12 @@ import { useSchool } from "@/components/SchoolContext";
 import { SchoolLogo } from "@/components/AppShell";
 import { Spinner } from "@/components/ui";
 import { rpc } from "@/lib/client";
+import Icon from "@/components/Icon";
 
 const ROLES = [
-  { id: "siswa", label: "Siswa", icon: BookOpen, color: "#EF4444", to: "#F97316", idLabel: "NISN", idPh: "10 digit NISN", emoji: "🧒" },
-  { id: "ortu", label: "Orang Tua", icon: Users, color: "#7C3AED", to: "#DB2777", idLabel: "NISN anak", idPh: "NISN anak Anda", emoji: "👨‍👩‍👧" },
-  { id: "guru", label: "Guru", icon: GraduationCap, color: "#0D9488", to: "#1E3A8A", idLabel: "Username", idPh: "admin", emoji: "🧑‍🏫" },
+  { id: "siswa", label: "Siswa", icon: BookOpen, color: "#EF4444", to: "#F97316", idLabel: "NISN", idPh: "10 digit NISN", icon2: "peran/siswa" },
+  { id: "ortu", label: "Orang Tua", icon: Users, color: "#7C3AED", to: "#DB2777", idLabel: "NISN anak", idPh: "NISN anak Anda", icon2: "peran/ortu" },
+  { id: "guru", label: "Guru", icon: GraduationCap, color: "#0D9488", to: "#1E3A8A", idLabel: "Username", idPh: "admin", icon2: "peran/guru" },
 ];
 
 const DEMO = {
@@ -80,8 +81,8 @@ export default function LoginPage() {
           </Link>
           <div>
             <AnimatePresence mode="wait">
-              <motion.div key={role} initial={{ scale: 0.6, rotate: -10, opacity: 0 }} animate={{ scale: 1, rotate: 0, opacity: 1 }} exit={{ scale: 0.6, opacity: 0 }} transition={{ type: "spring", stiffness: 260, damping: 18 }} className="text-8xl">
-                {r.emoji}
+              <motion.div key={role} initial={{ scale: 0.6, rotate: -10, opacity: 0 }} animate={{ scale: 1, rotate: 0, opacity: 1 }} exit={{ scale: 0.6, opacity: 0 }} transition={{ type: "spring", stiffness: 260, damping: 18 }} >
+                <Icon name={r.icon2} size={128} />
               </motion.div>
             </AnimatePresence>
             <h2 className="mt-6 font-display text-4xl font-bold leading-tight">Selamat datang di perpustakaan {school.short_name || school.name}</h2>
@@ -163,7 +164,9 @@ export default function LoginPage() {
               </AnimatePresence>
 
               <motion.button whileTap={{ scale: 0.96 }} disabled={loading} className="flex w-full items-center justify-center gap-2 rounded-2xl py-4 font-display text-lg font-bold text-white shadow-lg disabled:opacity-60" style={{ background: `linear-gradient(135deg, ${r.color}, ${r.to})` }}>
-                {loading ? <motion.span animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 0.8, ease: "linear" }}>📖</motion.span> : <LogIn className="h-5 w-5" />}
+                {loading ? <motion.span animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 0.8, ease: "linear" }}>
+                    <Icon name="kategori/semua" size={22} />
+                  </motion.span> : <LogIn className="h-5 w-5" />}
                 {loading ? "Masuk..." : "Masuk"}
               </motion.button>
             </form>
@@ -174,7 +177,7 @@ export default function LoginPage() {
                 <div className="grid grid-cols-3 gap-2">
                   {ROLES.map((x) => (
                     <motion.button key={x.id} type="button" whileTap={{ scale: 0.93 }} whileHover={{ y: -2 }} onClick={() => fillDemo(x.id)} className="flex flex-col items-center gap-1 rounded-2xl border-2 border-slate-100 py-3 text-xs font-bold text-slate-700 transition hover:border-slate-200">
-                      <span className="text-2xl">{x.emoji}</span>
+                      <Icon name={x.icon2} size={40} />
                       {x.label}
                     </motion.button>
                   ))}

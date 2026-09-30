@@ -120,7 +120,7 @@ export default function BookForm({ value, onChange, meta }) {
               <option value="">Pilih kategori</option>
               {meta?.categories?.map((c) => (
                 <option key={c.id} value={c.id}>
-                  {c.emoji} {c.nama}
+                  {c.nama}
                 </option>
               ))}
             </Select>

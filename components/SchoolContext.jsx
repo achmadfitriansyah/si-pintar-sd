@@ -13,12 +13,25 @@ export function SchoolProvider({ children }) {
   const [me, setMe] = useState(undefined); // undefined = belum dicek
   const [error, setError] = useState(null);
 
+  // Tampilkan data sekolah & sesi terakhir dari penyimpanan sesi dulu, lalu cocokkan ke server.
+  useEffect(() => {
+    try {
+      const c = JSON.parse(sessionStorage.getItem(`sp:${slug}`) || "null");
+      if (c?.school) setSchool((x) => x || c.school);
+      if (c?.me) setMe((x) => (x === undefined ? c.me : x));
+    } catch {}
+  }, [slug]);
+
   const refresh = useCallback(async () => {
     try {
       const [s, m] = await Promise.all([rpc("school.info", { slug }), rpc("auth.me")]);
+      const mine = m && m.school?.slug === slug ? m : null;
       setSchool(s);
-      setMe(m && m.school?.slug === slug ? m : null);
+      setMe(mine);
       setError(null);
+      try {
+        sessionStorage.setItem(`sp:${slug}`, JSON.stringify({ school: s, me: mine }));
+      } catch {}
       return m;
     } catch (e) {
       setError(e);
@@ -32,6 +45,9 @@ export function SchoolProvider({ children }) {
 
   const logout = useCallback(async () => {
     await rpc("auth.logout").catch(() => {});
+    try {
+      sessionStorage.removeItem(`sp:${slug}`);
+    } catch {}
     setMe(null);
     window.location.href = `/${slug}/login`;
   }, [slug]);

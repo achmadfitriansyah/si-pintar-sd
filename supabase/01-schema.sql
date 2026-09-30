@@ -37,8 +37,8 @@ create table if not exists students (
   kelas          text not null,
   status         text not null default 'aktif' check (status in ('aktif','alumni')),
   tanggal_lahir  date,                         -- disiapkan untuk login versi berikutnya
-  pin_hash       text,                         -- NULL = masih PIN bawaan "123456"
-  pinned_badges  text[] not null default '{}', -- 3 lencana pajangan pilihan siswa
+  pin_hash       text,                         -- password siswa; NULL = masih bawaan "123456"
+  ortu_pin_hash  text,                         -- password orang tua; NULL = masih bawaan "123456"
   created_at     timestamptz not null default now(),
   unique (school_id, nisn)
 );
@@ -85,11 +85,13 @@ create table if not exists book_copies (
   id          bigserial primary key,
   school_id   bigint not null references schools(id) on delete cascade,
   book_id     bigint not null references books(id) on delete cascade,
-  qr_code     text not null,
+  qr_code     text not null,   -- isi QR di stiker (acak, tidak bisa ditebak)
+  label       text,            -- nomor stiker yang tercetak, mudah dibaca manusia (mis. 0001)
   kondisi     text not null default 'baik' check (kondisi in ('baik','rusak_ringan','rusak_berat')),
   status      text not null default 'tersedia' check (status in ('tersedia','dipinjam','hilang')),
   created_at  timestamptz not null default now(),
-  unique (school_id, qr_code)
+  unique (school_id, qr_code),
+  unique (school_id, label)
 );
 create index if not exists idx_copies_book on book_copies(book_id);
 

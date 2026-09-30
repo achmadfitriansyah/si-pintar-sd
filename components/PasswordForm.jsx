@@ -5,7 +5,7 @@ import { Field, Input, Button } from "./ui";
 import { useToast } from "./Providers";
 import { rpc } from "@/lib/client";
 
-export default function PasswordForm({ onDone, submitLabel = "Ganti password" }) {
+export default function PasswordForm({ onDone, submitLabel = "Ganti password", action = "auth.changePassword", variant = "teal" }) {
   const toast = useToast();
   const [f, setF] = useState({ oldPassword: "", newPassword: "", confirm: "" });
   const [saving, setSaving] = useState(false);
@@ -15,7 +15,7 @@ export default function PasswordForm({ onDone, submitLabel = "Ganti password" })
     if (f.newPassword !== f.confirm) return toast.error("Konfirmasi password tidak sama");
     setSaving(true);
     try {
-      await rpc("auth.changePassword", f);
+      await rpc(action, f);
       toast.success("Password berhasil diganti");
       setF({ oldPassword: "", newPassword: "", confirm: "" });
       onDone?.();
@@ -37,7 +37,7 @@ export default function PasswordForm({ onDone, submitLabel = "Ganti password" })
       <Field label="Ulangi password baru">
         <Input type="password" value={f.confirm} onChange={(e) => setF({ ...f, confirm: e.target.value })} autoComplete="new-password" />
       </Field>
-      <Button variant="teal" icon={KeyRound} loading={saving} className="w-full">
+      <Button variant={variant} icon={KeyRound} loading={saving} className="w-full">
         {submitLabel}
       </Button>
     </form>

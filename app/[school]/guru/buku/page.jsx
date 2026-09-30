@@ -11,6 +11,8 @@ import { useToast, useConfirm } from "@/components/Providers";
 import { useRpc, rpc } from "@/lib/client";
 import { KONDISI, STATUS_COPY } from "@/lib/rules";
 import { fmtShort } from "@/lib/time";
+import Icon from "@/components/Icon";
+import { catIcon } from "@/lib/icons";
 
 export default function GuruBuku() {
   const [q, setQ] = useState("");
@@ -30,7 +32,7 @@ export default function GuruBuku() {
   return (
     <Page>
       <GuruHeader
-        emoji="📚"
+        icon="kategori/semua"
         title="Koleksi Buku"
         sub={data ? `${data.length} judul · ${data.reduce((a, b) => a + b.total, 0)} eksemplar` : "Kelola judul dan eksemplar"}
         actions={
@@ -45,7 +47,7 @@ export default function GuruBuku() {
           <option value="">Semua kategori</option>
           {meta?.categories?.map((c) => (
             <option key={c.id} value={c.id}>
-              {c.emoji} {c.nama}
+              {c.nama}
             </option>
           ))}
         </Select>
@@ -56,7 +58,7 @@ export default function GuruBuku() {
       ) : loading && !data ? (
         <Spinner />
       ) : data.length === 0 ? (
-        <Empty emoji="📦" title="Belum ada buku" text="Tempel stiker QR di buku, lalu tekan Tambah via scan." action={<Button variant="teal" icon={Plus} onClick={() => setAdding(true)}>Tambah buku pertama</Button>} />
+        <Empty icon="status/kosong" title="Belum ada buku" text="Tempel stiker QR di buku, lalu tekan Tambah via scan." action={<Button variant="teal" icon={Plus} onClick={() => setAdding(true)}>Tambah buku pertama</Button>} />
       ) : (
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-6">
           {data.map((b, i) => (
@@ -111,7 +113,7 @@ function AddFlow({ open, onClose, meta, onDone }) {
     try {
       const r = await rpc("guru.codeCheck", { code: c });
       if (r.exists) {
-        toast.info(`Kode ${r.code} sudah terdaftar untuk "${r.judul}"`);
+        toast.info(`Stiker ${r.label || r.code} sudah terdaftar untuk "${r.judul}"`);
         onClose();
         onDone(r.bookId);
         return;
@@ -128,7 +130,7 @@ function AddFlow({ open, onClose, meta, onDone }) {
     setSaving(true);
     try {
       const r = await rpc("guru.createBook", { book, code });
-      toast.success(`Buku tersimpan dengan kode ${code}`);
+      toast.success(`Buku tersimpan, nomor stiker ${r.label}`);
       onClose();
       onDone(r.id);
     } catch (e) {
@@ -317,7 +319,7 @@ function BookDetail({ id, meta, onClose, onChanged }) {
             <div>
               {b.category && (
                 <Chip className="bg-teal-50 text-teal-700">
-                  {b.category.emoji} {b.category.nama}
+                  <Icon name={catIcon(b.category.kode)} size={16} /> {b.category.nama}
                 </Chip>
               )}
               <h2 className="mt-1 font-display text-2xl font-bold leading-tight">{b.judul}</h2>
@@ -376,7 +378,9 @@ function BookDetail({ id, meta, onClose, onChanged }) {
               {d.copies.map((c) => (
                 <div key={c.id} className="flex flex-wrap items-center gap-2 rounded-2xl bg-slate-50 p-3">
                   <div className="min-w-[110px] flex-1">
-                    <div className="font-data text-sm font-bold">{c.qr_code}</div>
+                    <div className="font-data text-sm font-bold">
+                      {c.label || c.qr_code} <span className="text-[10px] font-semibold text-slate-400">nomor stiker</span>
+                    </div>
                     <div className="mt-1 flex flex-wrap gap-1">
                       <Chip className={STATUS_COPY[c.status].color}>{STATUS_COPY[c.status].label}</Chip>
                       {c.loan && (
@@ -398,11 +402,11 @@ function BookDetail({ id, meta, onClose, onChanged }) {
                     ))}
                   </select>
                   {c.status === "tersedia" && (
-                    <IconBtn title="Tandai hilang" icon={Ghost} onClick={async () => (await confirm({ title: "Tandai eksemplar hilang?", message: c.qr_code, danger: true })) && act(() => rpc("guru.markLost", { copyId: c.id }), "Ditandai hilang")} />
+                    <IconBtn title="Tandai hilang" icon={Ghost} onClick={async () => (await confirm({ title: "Tandai eksemplar hilang?", message: c.label || c.qr_code, danger: true })) && act(() => rpc("guru.markLost", { copyId: c.id }), "Ditandai hilang")} />
                   )}
                   {c.status === "hilang" && <IconBtn title="Ditemukan lagi" icon={Undo2} onClick={() => act(() => rpc("guru.updateCopy", { id: c.id, status: "tersedia" }), "Eksemplar tersedia lagi")} />}
                   {c.status !== "dipinjam" && (
-                    <IconBtn title="Hapus eksemplar" icon={Trash2} danger onClick={async () => (await confirm({ title: "Hapus eksemplar?", message: c.qr_code, danger: true, ok: "Hapus" })) && act(() => rpc("guru.deleteCopy", { id: c.id }), "Eksemplar dihapus")} />
+                    <IconBtn title="Hapus eksemplar" icon={Trash2} danger onClick={async () => (await confirm({ title: "Hapus eksemplar?", message: c.label || c.qr_code, danger: true, ok: "Hapus" })) && act(() => rpc("guru.deleteCopy", { id: c.id }), "Eksemplar dihapus")} />
                   )}
                 </div>
               ))}

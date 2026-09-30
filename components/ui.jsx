@@ -2,6 +2,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { Loader2, X, Search, BookOpen } from "lucide-react";
 import { useEffect } from "react";
+import Icon from "./Icon";
 
 export function Ribbon({ children, color = "#EF4444", dark = "#B91C1C", className = "" }) {
   return (
@@ -48,8 +49,8 @@ export function Card({ children, className = "", ...rest }) {
 export function Spinner({ label = "Memuat..." }) {
   return (
     <div className="flex flex-col items-center justify-center gap-3 py-16 text-slate-500">
-      <motion.div animate={{ y: [0, -10, 0], rotate: [0, -8, 8, 0] }} transition={{ repeat: Infinity, duration: 1.1 }} className="text-4xl">
-        📖
+      <motion.div animate={{ y: [0, -10, 0], rotate: [0, -8, 8, 0] }} transition={{ repeat: Infinity, duration: 1.1 }}>
+        <Icon name="kategori/semua" size={48} />
       </motion.div>
       <span className="text-sm font-semibold">{label}</span>
     </div>
@@ -60,10 +61,12 @@ export function Skeleton({ className = "" }) {
   return <div className={`skeleton rounded-2xl ${className}`} />;
 }
 
-export function Empty({ emoji = "📭", title, text, action }) {
+export function Empty({ icon = "status/kosong", title, text, action }) {
   return (
     <div className="flex flex-col items-center py-12 text-center">
-      <div className="mb-3 animate-float text-6xl">{emoji}</div>
+      <div className="mb-3 animate-float">
+        <Icon name={icon} size={88} />
+      </div>
       <div className="font-display text-lg font-bold text-slate-800">{title}</div>
       {text && <p className="mt-1 max-w-xs text-sm text-slate-500">{text}</p>}
       {action && <div className="mt-4">{action}</div>}
@@ -74,7 +77,7 @@ export function Empty({ emoji = "📭", title, text, action }) {
 export function ErrorBox({ error, onRetry }) {
   return (
     <div className="mx-auto my-10 max-w-sm rounded-3xl bg-white p-6 text-center shadow-card">
-      <div className="text-5xl">😵</div>
+      <Icon name="status/error" size={72} className="mx-auto" />
       <div className="mt-2 font-display text-lg font-bold">Ada yang tidak beres</div>
       <p className="mt-1 text-sm text-slate-500">{error?.message || "Gagal memuat data"}</p>
       {onRetry && (
@@ -233,35 +236,6 @@ export function DueChip({ due, late }) {
   if (d <= 0) return <Chip className="bg-amber-100 text-amber-700">Kembalikan hari ini</Chip>;
   if (d === 1) return <Chip className="bg-amber-100 text-amber-700">Besok jatuh tempo</Chip>;
   return <Chip className="bg-emerald-100 text-emerald-700">{d} hari lagi</Chip>;
-}
-
-export function BadgeMedal({ badge, size = 56, locked = false, onClick, selected }) {
-  if (!badge) return null;
-  return (
-    <motion.button
-      type="button"
-      whileTap={{ scale: 0.9 }}
-      whileHover={{ y: -2 }}
-      onClick={onClick}
-      className="flex flex-col items-center gap-1"
-      style={{ width: size + 16 }}
-      title={badge.name}
-    >
-      <div
-        className={`relative flex items-center justify-center rounded-full ${locked ? "grayscale opacity-40" : ""} ${selected ? "ring-4 ring-brand ring-offset-2" : ""}`}
-        style={{
-          width: size,
-          height: size,
-          background: `radial-gradient(circle at 30% 30%, #fff 0%, ${badge.color} 70%)`,
-          boxShadow: locked ? "none" : `0 6px 14px -6px ${badge.color}`,
-          border: `3px solid ${badge.color}`,
-        }}
-      >
-        <span style={{ fontSize: size * 0.45 }}>{badge.emoji}</span>
-      </div>
-      <span className="line-clamp-2 text-center text-[10px] font-bold leading-tight text-slate-600">{badge.name}</span>
-    </motion.button>
-  );
 }
 
 export function PageHero({ children, from = "#EF4444", to = "#F97316", className = "" }) {

@@ -35,7 +35,7 @@ export default function LoanHistory({ accent = "#EF4444" }) {
             ))}
           </div>
         ) : (
-          <Empty emoji="📗" title="Tidak ada buku yang sedang dipinjam" />
+          <Empty icon="status/buku-tersedia" title="Tidak ada buku yang sedang dipinjam" />
         )
       ) : riwayat.length ? (
         <div className="grid gap-2 lg:grid-cols-2">
@@ -59,7 +59,7 @@ export default function LoanHistory({ accent = "#EF4444" }) {
           ))}
         </div>
       ) : (
-        <Empty emoji="📭" title="Belum ada riwayat" />
+        <Empty icon="status/kosong" title="Belum ada riwayat" />
       )}
     </div>
   );

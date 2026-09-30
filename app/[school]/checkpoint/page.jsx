@@ -7,6 +7,7 @@ import { Button, Card, Input, Field, Spinner, Empty } from "@/components/ui";
 import { useToast, useConfirm } from "@/components/Providers";
 import { rpc } from "@/lib/client";
 import { fmtDate } from "@/lib/time";
+import Icon from "@/components/Icon";
 
 // Halaman tersembunyi: /demo/checkpoint — tidak ada di menu mana pun.
 export default function CheckpointPage() {
@@ -19,7 +20,7 @@ export default function CheckpointPage() {
   const [busy, setBusy] = useState(false);
 
   if (!school) return <Spinner />;
-  if (!school.is_demo) return <Empty emoji="🔒" title="Hanya untuk mode demo" text="Halaman ini tidak tersedia untuk sekolah asli." />;
+  if (!school.is_demo) return <Empty icon="status/kunci" title="Hanya untuk mode demo" text="Halaman ini tidak tersedia untuk sekolah asli." />;
 
   const call = async (action, extra = {}) => rpc(action, { slug, ...cred, ...extra });
 
@@ -71,7 +72,7 @@ export default function CheckpointPage() {
     <main className="min-h-dvh bg-slate-100 px-4 py-10">
       <div className="mx-auto max-w-lg space-y-4">
         <div className="text-center">
-          <div className="text-5xl">🛟</div>
+          <Icon name="status/aman" size={64} className="mx-auto" />
           <h1 className="mt-2 font-display text-2xl font-bold">Checkpoint Demo</h1>
           <p className="text-sm text-slate-500">Simpan kondisi data demo, lalu kembalikan kapan saja.</p>
         </div>

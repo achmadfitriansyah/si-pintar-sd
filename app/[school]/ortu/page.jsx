@@ -5,7 +5,8 @@ import { BookOpen, Star, Clock, Crown, ChevronRight, Lightbulb } from "lucide-re
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Tooltip, Cell } from "recharts";
 import { useSchool } from "@/components/SchoolContext";
 import { Page } from "@/components/AppShell";
-import { Card, Spinner, ErrorBox, ProgressBar, BadgeMedal, PageHero } from "@/components/ui";
+import Icon from "@/components/Icon";
+import { Card, Spinner, ErrorBox, ProgressBar, PageHero } from "@/components/ui";
 import { LoanCard, ClassChallenge } from "@/components/StudentBits";
 import { useRpc, firstName } from "@/lib/client";
 import { fmtShort } from "@/lib/time";
@@ -26,8 +27,8 @@ export default function OrtuHome() {
         <Page>
           <div className="text-sm text-white/85">Laporan membaca</div>
           <div className="mt-1 flex items-center gap-4">
-            <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring", stiffness: 260, damping: 14 }} className="flex h-16 w-16 items-center justify-center rounded-3xl bg-white/25 text-4xl backdrop-blur">
-              {d.level.emoji}
+            <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring", stiffness: 260, damping: 14 }} className="flex h-16 w-16 items-center justify-center rounded-3xl bg-white/25 backdrop-blur">
+              <Icon name={d.level.icon} size={48} />
             </motion.div>
             <div>
               <h1 className="font-display text-3xl font-bold">{d.student.nama}</h1>
@@ -95,21 +96,6 @@ export default function OrtuHome() {
             )}
           </Card>
         </div>
-
-        <Card>
-          <div className="mb-3 font-display text-lg font-bold">Lencana {nama}</div>
-          {d.badges.length ? (
-            <div className="flex flex-wrap gap-3">
-              {d.badges.map((b, i) => (
-                <motion.div key={b.id} initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: i * 0.06, type: "spring", stiffness: 300, damping: 14 }}>
-                  <BadgeMedal badge={b} size={54} />
-                </motion.div>
-              ))}
-            </div>
-          ) : (
-            <p className="text-sm text-slate-500">Belum ada lencana. Lencana pertama didapat setelah 5 buku berbeda dikembalikan.</p>
-          )}
-        </Card>
 
         <ClassChallenge cc={d.classChallenge} compact />
 

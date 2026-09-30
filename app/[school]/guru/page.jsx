@@ -19,7 +19,7 @@ export default function GuruDashboard() {
   return (
     <Page>
       <GuruHeader
-        emoji="👋"
+        icon="status/sapa"
         title={`${hello}!`}
         sub={`${school?.name} · ${fmtDate(new Date())}`}
         actions={
@@ -103,7 +103,7 @@ export default function GuruDashboard() {
                   </Link>
                 </div>
                 {d.overdue.length === 0 ? (
-                  <div className="rounded-2xl bg-emerald-50 p-4 text-center text-sm font-semibold text-emerald-700">🎉 Tidak ada buku terlambat</div>
+                  <div className="rounded-2xl bg-emerald-50 p-4 text-center text-sm font-semibold text-emerald-700">Tidak ada buku terlambat</div>
                 ) : (
                   <div className="space-y-2">
                     {d.overdue.slice(0, 6).map((l) => (
@@ -136,7 +136,7 @@ export default function GuruDashboard() {
                         <div className="mb-1 flex justify-between text-sm">
                           <span className="font-bold">Kelas {c.kelas}</span>
                           <span className="font-data text-xs font-bold text-slate-500">
-                            {c.value}/{c.target} {c.value >= c.target && "✅"}
+                            {c.value}/{c.target}
                           </span>
                         </div>
                         <ProgressBar value={c.value} max={c.target} color={c.value >= c.target ? "#10B981" : "#0D9488"} height={8} delay={i * 0.05} />

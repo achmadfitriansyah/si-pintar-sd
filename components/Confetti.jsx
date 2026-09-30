@@ -1,8 +1,9 @@
 "use client";
 import { motion, AnimatePresence } from "framer-motion";
 import { useMemo } from "react";
+import Icon from "./Icon";
 
-const PIECES = ["🎉", "⭐", "📚", "✨", "🎊", "💛", "🌟"];
+const PIECES = ["konfeti/bintang", "konfeti/buku", "konfeti/percik", "konfeti/hati", "konfeti/lingkaran", "konfeti/pita"];
 
 /** Hujan konfeti lucu. show=true untuk memicu (ganti `key` untuk memicu ulang). */
 export default function Confetti({ show, count = 26 }) {
@@ -28,12 +29,11 @@ export default function Confetti({ show, count = 26 }) {
             <motion.span
               key={p.id}
               className="absolute"
-              style={{ fontSize: p.s }}
               initial={{ x: 0, y: 60, opacity: 1, scale: 0.4, rotate: 0 }}
               animate={{ x: p.x, y: [60, p.y, p.y + 520], opacity: [1, 1, 0], scale: 1, rotate: p.r }}
               transition={{ duration: 1.8, delay: p.d, ease: "easeOut" }}
             >
-              {p.e}
+              <Icon name={p.e} size={p.s + 10} />
             </motion.span>
           ))}
         </div>

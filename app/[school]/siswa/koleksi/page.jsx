@@ -1,15 +1,13 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { ScanLine, MapPin, Sparkles } from "lucide-react";
-import { useSchool } from "@/components/SchoolContext";
+import { MapPin } from "lucide-react";
 import { Page } from "@/components/AppShell";
-import { SearchInput, Cover, Modal, Button, Spinner, Empty, ErrorBox, PageHero, Chip } from "@/components/ui";
-import Confetti from "@/components/Confetti";
+import { SearchInput, Cover, Modal, Spinner, Empty, ErrorBox, PageHero, Chip } from "@/components/ui";
+import Icon from "@/components/Icon";
+import { catIcon } from "@/lib/icons";
 import { useToast } from "@/components/Providers";
 import { useRpc, rpc } from "@/lib/client";
-import { fmtDate } from "@/lib/time";
 
 export default function Koleksi() {
   const [q, setQ] = useState("");
@@ -39,9 +37,9 @@ export default function Koleksi() {
 
       <Page className="-mt-8">
         <div className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4 pb-2 sm:mx-0 sm:flex-wrap sm:px-0">
-          <CatChip active={!cat} onClick={() => setCat(null)} emoji="📚" label="Semua" />
+          <CatChip active={!cat} onClick={() => setCat(null)} icon="kategori/semua" label="Semua" />
           {data?.categories?.map((c) => (
-            <CatChip key={c.id} active={cat === c.id} onClick={() => setCat(c.id)} emoji={c.emoji} label={c.nama} />
+            <CatChip key={c.id} active={cat === c.id} onClick={() => setCat(c.id)} icon={catIcon(c.kode)} label={c.nama} />
           ))}
         </div>
 
@@ -50,7 +48,7 @@ export default function Koleksi() {
         ) : loading && !data ? (
           <Spinner label="Mengambil buku..." />
         ) : data.books.length === 0 ? (
-          <Empty emoji="🔍" title="Buku tidak ditemukan" text="Coba kata kunci atau kategori lain." />
+          <Empty icon="status/cari" title="Buku tidak ditemukan" text="Coba kata kunci atau kategori lain." />
         ) : (
           <motion.div layout className="mt-3 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
             <AnimatePresence>
@@ -74,8 +72,8 @@ export default function Koleksi() {
                     </span>
                   </div>
                   <div className="mt-2 line-clamp-2 font-display text-sm font-bold leading-tight">{b.judul}</div>
-                  <div className="truncate text-xs text-slate-500">
-                    {b.category?.emoji} {b.category?.nama}
+                  <div className="flex items-center gap-1 truncate text-xs text-slate-500">
+                    <Icon name={catIcon(b.category?.kode)} size={16} /> {b.category?.nama}
                   </div>
                 </motion.button>
               ))}
@@ -84,30 +82,26 @@ export default function Koleksi() {
         )}
       </Page>
 
-      <BookSheet id={openId} onClose={() => setOpenId(null)} onBorrowed={reload} />
+      <BookSheet id={openId} onClose={() => setOpenId(null)} />
     </div>
   );
 }
 
-function CatChip({ active, onClick, emoji, label }) {
+function CatChip({ active, onClick, icon, label }) {
   return (
     <motion.button
       whileTap={{ scale: 0.92 }}
       onClick={onClick}
       className={`flex shrink-0 items-center gap-1.5 rounded-full px-4 py-2 text-sm font-bold shadow-soft transition ${active ? "bg-slate-900 text-white" : "bg-white text-slate-600"}`}
     >
-      <span>{emoji}</span> {label}
+      <Icon name={icon} size={20} /> {label}
     </motion.button>
   );
 }
 
-function BookSheet({ id, onClose, onBorrowed }) {
-  const { slug } = useSchool();
-  const router = useRouter();
+function BookSheet({ id, onClose }) {
   const toast = useToast();
   const [b, setB] = useState(null);
-  const [busy, setBusy] = useState(false);
-  const [party, setParty] = useState(0);
 
   useEffect(() => {
     if (!id) return;
@@ -115,79 +109,45 @@ function BookSheet({ id, onClose, onBorrowed }) {
     rpc("books.detail", { id }).then(setB).catch((e) => toast.error(e.message));
   }, [id, toast]);
 
-  const borrowDemo = async () => {
-    setBusy(true);
-    try {
-      const r = await rpc("loan.borrowSelf", { code: b.sampleCode });
-      setParty((p) => p + 1);
-      toast.success(`Berhasil! Kembalikan sebelum ${fmtDate(r.due_date)}`);
-      onBorrowed();
-      setTimeout(onClose, 900);
-    } catch (e) {
-      toast.error(e.message);
-    } finally {
-      setBusy(false);
-    }
-  };
-
   return (
-    <>
-      <Confetti show={party > 0} key={party} />
-      <Modal open={!!id} onClose={onClose} title="Detail buku" wide>
-        {!b ? (
-          <Spinner />
-        ) : (
-          <div className="grid gap-5 sm:grid-cols-[180px_1fr]">
-            <motion.div initial={{ rotate: -4, scale: 0.9 }} animate={{ rotate: 0, scale: 1 }} transition={{ type: "spring", stiffness: 220, damping: 14 }} className="mx-auto w-40 sm:w-full">
-              <Cover src={b.cover_url} alt={b.judul} className="shadow-2xl" />
-            </motion.div>
-            <div>
-              <Chip className="bg-violet-100 text-violet-700">
-                {b.category?.emoji} {b.category?.nama}
-              </Chip>
-              <h2 className="mt-2 font-display text-2xl font-bold leading-tight">{b.judul}</h2>
-              <div className="text-sm text-slate-500">
-                {b.penulis}
-                {b.penerbit ? ` · ${b.penerbit}` : ""}
-                {b.tahun ? ` · ${b.tahun}` : ""}
+    <Modal open={!!id} onClose={onClose} title="Detail buku" wide>
+      {!b ? (
+        <Spinner />
+      ) : (
+        <div className="grid gap-5 sm:grid-cols-[180px_1fr]">
+          <motion.div initial={{ rotate: -4, scale: 0.9 }} animate={{ rotate: 0, scale: 1 }} transition={{ type: "spring", stiffness: 220, damping: 14 }} className="mx-auto w-40 sm:w-full">
+            <Cover src={b.cover_url} alt={b.judul} className="shadow-2xl" />
+          </motion.div>
+          <div>
+            <Chip className="bg-violet-100 text-violet-700">
+              <Icon name={catIcon(b.category?.kode)} size={16} /> {b.category?.nama}
+            </Chip>
+            <h2 className="mt-2 font-display text-2xl font-bold leading-tight">{b.judul}</h2>
+            <div className="text-sm text-slate-500">
+              {b.penulis}
+              {b.penerbit ? ` · ${b.penerbit}` : ""}
+              {b.tahun ? ` · ${b.tahun}` : ""}
+            </div>
+            {b.deskripsi && <p className="mt-3 text-sm leading-relaxed text-slate-700">{b.deskripsi}</p>}
+            <div className="mt-4 grid grid-cols-2 gap-2">
+              <div className="rounded-2xl bg-emerald-50 p-3 text-center">
+                <div className="font-data text-2xl font-bold text-emerald-700">
+                  {b.tersedia}/{b.total}
+                </div>
+                <div className="text-[11px] font-bold uppercase text-emerald-700/70">Tersedia</div>
               </div>
-              {b.deskripsi && <p className="mt-3 text-sm leading-relaxed text-slate-700">{b.deskripsi}</p>}
-              <div className="mt-4 grid grid-cols-2 gap-2">
-                <div className="rounded-2xl bg-emerald-50 p-3 text-center">
-                  <div className="font-data text-2xl font-bold text-emerald-700">
-                    {b.tersedia}/{b.total}
-                  </div>
-                  <div className="text-[11px] font-bold uppercase text-emerald-700/70">Tersedia</div>
-                </div>
-                <div className="flex flex-col items-center justify-center rounded-2xl bg-sky-50 p-3 text-center">
-                  <MapPin className="h-5 w-5 text-sky-600" />
-                  <div className="text-xs font-bold text-sky-700">{b.shelf?.nama || "Rak belum diatur"}</div>
-                </div>
-              </div>
-
-              {b.sampleCode ? (
-                <div className="mt-4 rounded-2xl bg-amber-50 p-3 text-sm text-amber-900">
-                  <div className="flex items-center gap-1 font-bold">
-                    <Sparkles className="h-4 w-4" /> Mode demo
-                  </div>
-                  Kode stiker contoh untuk buku ini: <span className="font-data font-bold">{b.sampleCode}</span>
-                </div>
-              ) : null}
-
-              <div className="mt-4 flex flex-col gap-2 sm:flex-row">
-                {b.sampleCode && (
-                  <Button className="flex-1" loading={busy} onClick={borrowDemo}>
-                    Pinjam sekarang
-                  </Button>
-                )}
-                <Button variant={b.sampleCode ? "soft" : "primary"} className="flex-1" icon={ScanLine} disabled={!b.tersedia} onClick={() => router.push(`/${slug}/siswa/pinjam`)}>
-                  {b.tersedia ? "Scan QR di buku" : "Sedang dipinjam semua"}
-                </Button>
+              <div className="flex flex-col items-center justify-center rounded-2xl bg-sky-50 p-3 text-center">
+                <MapPin className="h-5 w-5 text-sky-600" />
+                <div className="text-xs font-bold text-sky-700">{b.shelf?.nama || "Rak belum diatur"}</div>
               </div>
             </div>
+            <div className="mt-4 flex items-center gap-3 rounded-2xl bg-amber-50 p-3 text-sm font-semibold text-amber-900">
+              <Icon name="status/buku-pinjam" size={36} />
+              {b.tersedia ? "Mau pinjam? Bawa bukunya ke guru di perpustakaan." : "Semua buku ini sedang dipinjam. Coba lagi nanti ya."}
+            </div>
           </div>
-        )}
-      </Modal>
-    </>
+        </div>
+      )}
+    </Modal>
   );
 }

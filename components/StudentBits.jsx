@@ -1,7 +1,8 @@
 "use client";
 import { motion } from "framer-motion";
 import { Check, Users } from "lucide-react";
-import { ProgressBar, Cover, DueChip, BadgeMedal } from "./ui";
+import { ProgressBar, Cover, DueChip } from "./ui";
+import Icon from "./Icon";
 import { fmtShort } from "@/lib/time";
 
 /** Kartu satu tantangan (mingguan / guru) */
@@ -16,9 +17,9 @@ export function ChallengeRow({ c, accent = "#F97316", i = 0 }) {
       <motion.div
         animate={c.done ? { rotate: [0, -12, 12, 0], scale: [1, 1.15, 1] } : {}}
         transition={{ duration: 0.6, delay: 0.3 + i * 0.06 }}
-        className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-2xl ${c.done ? "bg-emerald-500" : "bg-orange-50"}`}
+        className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${c.done ? "bg-emerald-500" : "bg-orange-50"}`}
       >
-        {c.done ? <Check className="h-6 w-6 text-white" strokeWidth={3} /> : c.emoji}
+        {c.done ? <Check className="h-6 w-6 text-white" strokeWidth={3} /> : <Icon name={c.icon || "tantangan/umum"} size={30} />}
       </motion.div>
       <div className="min-w-0 flex-1">
         <div className="flex items-start gap-1.5">
@@ -44,7 +45,7 @@ export function ClassChallenge({ cc, compact }) {
   if (!cc) return null;
   return (
     <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-sky-500 to-indigo-600 p-5 text-white shadow-card">
-      <div className="absolute -right-6 -top-6 text-8xl opacity-15">🏫</div>
+      <Icon name="tantangan/kelas" size={110} className="absolute -right-4 -top-4 opacity-25" />
       <div className="relative">
         <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/80">
           <Users className="h-4 w-4" /> Tantangan Kelas {cc.kelas}
@@ -85,18 +86,5 @@ export function LoanCard({ l, i = 0 }) {
       </div>
       <DueChip due={l.due_date} late={l.late} />
     </motion.div>
-  );
-}
-
-export function BadgeRow({ badges, size = 52, empty = "Belum ada lencana. Selesaikan tantangan berjenjang!" }) {
-  if (!badges?.length) return <p className="text-sm text-white/80">{empty}</p>;
-  return (
-    <div className="flex gap-2">
-      {badges.map((b, i) => (
-        <motion.div key={b.id} initial={{ scale: 0, rotate: -30 }} animate={{ scale: 1, rotate: 0 }} transition={{ delay: 0.2 + i * 0.1, type: "spring", stiffness: 300, damping: 14 }}>
-          <BadgeMedal badge={b} size={size} />
-        </motion.div>
-      ))}
-    </div>
   );
 }

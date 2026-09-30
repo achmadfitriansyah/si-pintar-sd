@@ -3,6 +3,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, Sparkles, School, PlayCircle } from "lucide-react";
 import { Ribbon } from "@/components/ui";
+import Icon from "@/components/Icon";
 
 const choices = [
   {
@@ -13,7 +14,7 @@ const choices = [
     tag: "Untuk calon pengguna",
     from: "#F59E0B",
     to: "#EF4444",
-    emoji: "🎮",
+    pic: "status/balon-buku",
   },
   {
     href: "/sdn001balsel/login",
@@ -23,7 +24,7 @@ const choices = [
     tag: "Sekolah terdaftar",
     from: "#0D9488",
     to: "#1E3A8A",
-    emoji: "🏫",
+    pic: "status/sekolah",
   },
 ];
 
@@ -40,19 +41,20 @@ export default function Landing() {
             <Sparkles className="h-3.5 w-3.5" /> Perpustakaan pintar untuk SD
           </div>
           <div className="mb-4 flex justify-center lg:justify-start">
-            <motion.div animate={{ y: [0, -10, 0], rotate: [0, -4, 4, 0] }} transition={{ repeat: Infinity, duration: 3.2 }} className="text-7xl sm:text-8xl">
-              📖
+            <motion.div animate={{ y: [0, -10, 0], rotate: [0, -4, 4, 0] }} transition={{ repeat: Infinity, duration: 3.2 }} >
+              <Icon name="kategori/semua" size={96} />
             </motion.div>
           </div>
           <h1 className="font-display text-5xl font-bold leading-none text-slate-900 sm:text-6xl">
             SI-PINTAR <span className="text-brand">SD</span>
           </h1>
           <p className="mx-auto mt-4 max-w-md text-base text-slate-600 lg:mx-0 lg:text-lg">
-            Pinjam buku dengan sekali scan, kumpulkan poin dan lencana, dan orang tua bisa ikut memantau kebiasaan membaca anak.
+            Pinjam buku dengan sekali scan, kumpulkan poin, naik level, dan orang tua bisa ikut memantau kebiasaan membaca anak.
           </p>
           <div className="mt-6 hidden flex-wrap gap-2 lg:flex">
-            {["📷 Scan QR", "🏆 Tantangan", "📊 Laporan PDF", "👨‍👩‍👧 Pantauan ortu"].map((f) => (
-              <span key={f} className="rounded-full bg-white px-3 py-1.5 text-sm font-semibold text-slate-700 shadow-soft">
+            {[["status/balon-buku", "Scan QR"], ["tantangan/umum", "Tantangan"], ["status/laporan", "Laporan PDF"], ["peran/ortu", "Pantauan ortu"]].map(([ic, f]) => (
+              <span key={f} className="inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-sm font-semibold text-slate-700 shadow-soft">
+                <Icon name={ic} size={22} />
                 {f}
               </span>
             ))}
@@ -76,7 +78,7 @@ export default function Landing() {
                       <div className="absolute -right-8 -top-8 h-36 w-36 rounded-full bg-white/10" />
                       <div className="absolute -bottom-10 right-10 h-24 w-24 rounded-full bg-white/10" />
                       <div className="relative flex items-center gap-4">
-                        <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-white/20 text-4xl backdrop-blur">{c.emoji}</div>
+                        <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-white/25 backdrop-blur"><Icon name={c.pic} size={48} /></div>
                         <div className="min-w-0 flex-1">
                           <div className="text-[11px] font-bold uppercase tracking-wider text-white/80">{c.tag}</div>
                           <div className="font-display text-2xl font-bold leading-tight">{c.title}</div>
@@ -105,20 +107,20 @@ export default function Landing() {
 
 function FloatingDecor() {
   const items = [
-    { e: "⭐", x: "8%", y: "18%", d: 0 },
-    { e: "📚", x: "88%", y: "12%", d: 0.6 },
-    { e: "✨", x: "80%", y: "78%", d: 1.2 },
-    { e: "🏆", x: "6%", y: "82%", d: 0.3 },
+    { e: "konfeti/bintang", x: "8%", y: "18%", d: 0 },
+    { e: "konfeti/buku", x: "88%", y: "12%", d: 0.6 },
+    { e: "konfeti/percik", x: "80%", y: "78%", d: 1.2 },
+    { e: "peringkat/medali-1", x: "6%", y: "82%", d: 0.3 },
   ];
   return items.map((it) => (
     <motion.div
       key={it.e}
-      className="pointer-events-none absolute hidden text-3xl opacity-70 sm:block"
+      className="pointer-events-none absolute hidden opacity-80 sm:block"
       style={{ left: it.x, top: it.y }}
       animate={{ y: [0, -12, 0], rotate: [0, 10, -10, 0] }}
       transition={{ repeat: Infinity, duration: 4, delay: it.d }}
     >
-      {it.e}
+      <Icon name={it.e} size={44} />
     </motion.div>
   ));
 }
