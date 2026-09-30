@@ -48,7 +48,7 @@ Repo lama kamu: `si-pintar-sd` (yang sudah tersambung ke Vercel). Kita ganti sel
 ## B. Siapkan database di Supabase
 
 1. Buka [supabase.com/dashboard](https://supabase.com/dashboard) → pilih project kamu.
-   - Kalau belum ada: **New project** → Region **Southeast Asia (Singapore)** → simpan password database di tempat aman.
+   - Kalau belum ada: **New project** → Region **Asia-Pacific (Sydney atau Singapore)** — samakan dengan region di `vercel.json` → simpan password database di tempat aman.
 2. Menu kiri → **SQL Editor** → **New query**.
 3. **Hanya jika** kamu pernah menjalankan SQL versi lama di project ini: buka file `supabase/00-reset-OPSIONAL.sql`, salin semua isinya, tempel, klik **Run**. Kalau database masih kosong, **lewati langkah ini**.
 4. Buka `supabase/01-schema.sql` (pakai Notepad / VS Code), **salin semua**, tempel di SQL Editor (hapus isi lama), klik **Run**.
