@@ -98,6 +98,9 @@ export default function Landing() {
           <div className="mt-8 text-center">
             <div className="text-[11px] font-bold tracking-[0.2em] text-slate-400">BERIMAN · SEHAT · RAMAH · INOVATIF · BERSERI</div>
             <div className="mt-1 font-display font-semibold text-brand">&ldquo;Membaca Hari Ini, Sukses Esok Hari!&rdquo;</div>
+            <Link href="/kebijakan-privasi" className="mt-3 inline-block text-xs font-semibold text-slate-500 underline">
+              Kebijakan Privasi
+            </Link>
           </div>
         </div>
       </div>
