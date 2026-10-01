@@ -3,6 +3,10 @@ name: Build Android
 # Jalankan manual: GitHub > Actions > "Build Android" > Run workflow.
 # Hasil (APK untuk install langsung, AAB untuk Play Store) ada di bagian "Artifacts" run tersebut.
 on:
+  # Otomatis jalan tiap ada perubahan di folder mobile/ (APK debug saja bila keystore belum diisi)
+  push:
+    branches: [main]
+    paths: ["mobile/**", ".github/workflows/android.yml"]
   workflow_dispatch:
     inputs:
       slug:
@@ -40,11 +44,11 @@ jobs:
 
       - name: Atur identitas aplikasi
         env:
-          SLUG: ${{ inputs.slug }}
-          APP_NAME: ${{ inputs.app_name }}
-          APP_ID_IN: ${{ inputs.app_id }}
-          BASE_URL: ${{ inputs.base_url }}
-          VCODE: ${{ inputs.version_code }}
+          SLUG: ${{ inputs.slug || '' }}
+          APP_NAME: ${{ inputs.app_name || 'SI-PINTAR SD' }}
+          APP_ID_IN: ${{ inputs.app_id || '' }}
+          BASE_URL: ${{ inputs.base_url || 'https://si-pintar-sd.vercel.app' }}
+          VCODE: ${{ inputs.version_code || '1' }}
         run: |
           APP_ID="${APP_ID_IN:-com.sipintarsd.${SLUG:-app}}"; export APP_ID
           node -e '
