@@ -112,6 +112,17 @@ export default function Pengaturan() {
             <div className="mb-4 text-xs text-slate-500">Username: {data.admin.username}</div>
             {demo ? <p className="rounded-2xl bg-amber-50 p-3 text-sm font-semibold text-amber-800">Tidak tersedia di mode demo, supaya login demo tetap admin/admin.</p> : <PasswordForm />}
           </Card>
+          {process.env.NEXT_PUBLIC_CONTACT_EMAIL ? (
+            <Card>
+              <div className="mb-1 font-display text-lg font-bold">Tentang aplikasi</div>
+              <p className="text-sm text-slate-600">
+                Informasi untuk sekolah lain yang ingin memakai SI-PINTAR SD:{" "}
+                <a className="font-semibold text-teal-700 underline" href={`mailto:${process.env.NEXT_PUBLIC_CONTACT_EMAIL}`}>
+                  {process.env.NEXT_PUBLIC_CONTACT_EMAIL}
+                </a>
+              </p>
+            </Card>
+          ) : null}
         </div>
       </div>
     </Page>
