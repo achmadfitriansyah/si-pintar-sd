@@ -41,7 +41,7 @@ export default function KebijakanPrivasi() {
 
       <Section title="Kamera">
         <p>
-          Kamera dipakai oleh guru untuk memindai kode QR dan barcode ISBN pada buku. Pemindaian terjadi di perangkat; gambar dari kamera tidak disimpan dan tidak dikirim ke server. Foto sampul buku hanya diunggah bila guru memilih untuk menambahkannya.
+          Kamera dipakai oleh guru untuk memindai kode QR dan barcode ISBN pada buku. Pemindaian terjadi di perangkat; gambar hasil pemindaian tidak disimpan dan tidak dikirim ke server. Kamera atau galeri juga dapat dipakai guru untuk memotret sampul buku atau memilih logo sekolah; foto itu diunggah ke server <b>hanya bila guru memilih menyimpannya</b>, dan dipakai untuk menampilkan sampul buku dan logo di aplikasi. Aplikasi tidak membaca foto lain di perangkat.
         </p>
       </Section>
 
