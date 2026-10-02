@@ -71,6 +71,9 @@ export default function KebijakanPrivasi() {
             </>
           ) : null}
         </p>
+        <p>
+          Langkah lengkap dan rincian data yang dihapus ada di halaman <a className="font-semibold text-red-700 underline" href="/hapus-akun">Hapus Akun dan Data</a>.
+        </p>
       </Section>
 
       <Section title="Perubahan kebijakan">
