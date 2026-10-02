@@ -15,7 +15,6 @@ export default function BookForm({ value, onChange, meta }) {
   const toast = useToast();
   const [isbnScan, setIsbnScan] = useState(false);
   const [coverOpen, setCoverOpen] = useState(false);
-  const [coverInit, setCoverInit] = useState(null);
   const set = (k) => (e) => onChange({ ...value, [k]: e.target.value });
 
   return (
@@ -30,7 +29,6 @@ export default function BookForm({ value, onChange, meta }) {
           className="w-full py-2 text-sm"
           icon={ImagePlus}
           onClick={() => {
-            setCoverInit(null);
             setCoverOpen(true);
           }}
         >
@@ -99,7 +97,7 @@ export default function BookForm({ value, onChange, meta }) {
         </Field>
       </div>
 
-      <CoverEditor open={coverOpen} onClose={() => setCoverOpen(false)} initialUrl={coverInit} onSaved={(url) => onChange({ ...value, cover_url: url })} />
+      <CoverEditor open={coverOpen} onClose={() => setCoverOpen(false)} onSaved={(url) => onChange({ ...value, cover_url: url })} />
     </div>
   );
 }

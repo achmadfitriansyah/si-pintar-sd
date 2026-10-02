@@ -1,31 +1,27 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { Camera, ImagePlus, Link2, Wand2, RotateCcw, Check, Maximize2, Loader2 } from "lucide-react";
-import { Modal, Button, Input, Spinner } from "./ui";
+import { Camera, ImagePlus, Wand2, RotateCcw, Check, Maximize2 } from "lucide-react";
+import { Modal, Button, Spinner } from "./ui";
 import { useToast } from "./Providers";
 import { uploadImage } from "@/lib/client";
-import { loadImage, toCanvas, warp, enhance, toJpeg, fetchViaProxy, COVER_W, COVER_H } from "@/lib/image";
+import { loadImage, toCanvas, warp, enhance, toJpeg, COVER_W, COVER_H } from "@/lib/image";
 
 /**
- * Editor cover buku: kamera / file / link
+ * Editor cover buku: kamera / galeri
  * → luruskan 4 sudut → rapikan cahaya → 600×900 JPEG → unggah
  * onSaved(url) dipanggil setelah berhasil diunggah.
  */
-export default function CoverEditor({ open, onClose, onSaved, initialUrl = null }) {
+export default function CoverEditor({ open, onClose, onSaved }) {
   const toast = useToast();
   const [step, setStep] = useState("pick"); // pick | adjust | saving
   const [src, setSrc] = useState(null); // { url, fromCamera }
-  const [link, setLink] = useState("");
-  const [loadingImg, setLoadingImg] = useState(false);
   const camRef = useRef(null);
   const fileRef = useRef(null);
 
   useEffect(() => {
     if (!open) return;
     setStep("pick");
-    setLink("");
-    if (initialUrl) takeRemote(initialUrl);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
@@ -34,17 +30,6 @@ export default function CoverEditor({ open, onClose, onSaved, initialUrl = null 
   const takeBlob = (blob, fromCamera) => {
     setSrc({ url: URL.createObjectURL(blob), fromCamera });
     setStep("adjust");
-  };
-
-  const takeRemote = async (url) => {
-    setLoadingImg(true);
-    try {
-      takeBlob(await fetchViaProxy(url), false);
-    } catch (e) {
-      toast.error(e.message);
-    } finally {
-      setLoadingImg(false);
-    }
   };
 
   // Kamera langsung di dalam aplikasi (sama seperti pemindai QR), supaya tidak tergantung perilaku browser.
@@ -84,23 +69,6 @@ export default function CoverEditor({ open, onClose, onSaved, initialUrl = null 
             <SourceBtn icon={ImagePlus} title="Pilih dari galeri" text="Foto atau gambar yang sudah ada" color="#7C3AED" onClick={() => fileRef.current?.click()} />
           </div>
 
-          <div className="rounded-3xl bg-slate-50 p-4">
-            <div className="mb-2 flex items-center gap-2 text-sm font-bold text-slate-700">
-              <Link2 className="h-4 w-4" /> Tempel link gambar
-            </div>
-            <div className="flex gap-2">
-              <Input value={link} onChange={(e) => setLink(e.target.value)} placeholder="https://..." />
-              <Button variant="dark" loading={loadingImg} onClick={() => link && takeRemote(link)}>
-                Ambil
-              </Button>
-            </div>
-          </div>
-
-          {loadingImg && (
-            <p className="flex items-center gap-2 text-sm text-slate-500">
-              <Loader2 className="h-4 w-4 animate-spin" /> Mengambil gambar...
-            </p>
-          )}
         </div>
       )}
 
