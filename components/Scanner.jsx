@@ -12,6 +12,9 @@ import { useSchool } from "@/components/SchoolContext";
  * mode="isbn" → barcode ISBN di sampul belakang
  * continuous  → kamera tetap menyala untuk scan berturut-turut (guru)
  */
+// Kode acak seperti isi QR asli (belum terdaftar), hanya untuk mode demo
+const newSampleCode = () => "SP" + Array.from(crypto.getRandomValues(new Uint8Array(7)), (b) => b.toString(16).padStart(2, "0")).join("").toUpperCase().slice(0, 13);
+
 export default function Scanner({ onResult, mode = "qr", continuous = false, accent = "#EF4444", placeholder, autoStart = false, busy = false, hint, sample }) {
   const rid = useId().replace(/:/g, "");
   const elId = `scan-${rid}`;
@@ -26,11 +29,15 @@ export default function Scanner({ onResult, mode = "qr", continuous = false, acc
   const [camCount, setCamCount] = useState(0);
   const camIdx = useRef(0);
   const [mirror, setMirror] = useState(false);
-  // Mode demo: tombol kode contoh supaya bisa dicoba tanpa stiker QR (sample = "tersedia" | "semua")
+  // Mode demo: tombol kode contoh supaya bisa dicoba tanpa stiker QR (sample = "tersedia" | "semua" | "baru"; "baru" = kode acak yang belum terdaftar, untuk mencoba tambah buku)
   const school = useSchool()?.school;
   const [samples, setSamples] = useState([]);
   useEffect(() => {
     if (!sample || mode !== "qr" || !school?.is_demo) return;
+    if (sample === "baru") {
+      setSamples([{ baru: true, code: "baru" }]);
+      return;
+    }
     let alive = true;
     rpc("guru.demoSamples", { kind: sample })
       .then((r) => alive && setSamples(r.items || []))
@@ -206,7 +213,7 @@ export default function Scanner({ onResult, mode = "qr", continuous = false, acc
 
       {samples.length > 0 && (
         <div className="mt-3 rounded-2xl border-2 border-dashed border-amber-300 bg-amber-50 p-3">
-          <div className="text-xs font-bold text-amber-800">Mode demo: tidak punya stiker QR? Pakai kode contoh</div>
+          <div className="text-xs font-bold text-amber-800">{sample === "baru" ? "Mode demo: belum punya stiker baru? Pakai kode baru contoh" : "Mode demo: tidak punya stiker QR? Pakai kode contoh"}</div>
           <div className="mt-2 flex flex-wrap gap-2">
             {samples.map((x) => (
               <button
@@ -215,12 +222,11 @@ export default function Scanner({ onResult, mode = "qr", continuous = false, acc
                 disabled={busy}
                 onClick={() => {
                   beep(true);
-                  cb.current(x.code);
+                  cb.current(x.baru ? newSampleCode() : x.code);
                 }}
                 className="max-w-full truncate rounded-full bg-white px-3 py-1.5 text-xs font-bold text-slate-700 shadow-soft active:scale-95 disabled:opacity-50"
               >
-                {x.label ? `${x.label} · ` : ""}
-                {x.judul}
+                {x.baru ? "Scan stiker baru (contoh)" : `${x.label ? `${x.label} · ` : ""}${x.judul}`}
               </button>
             ))}
           </div>

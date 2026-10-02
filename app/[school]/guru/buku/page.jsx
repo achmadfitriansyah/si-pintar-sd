@@ -188,7 +188,7 @@ function AddFlow({ open, onClose, meta, onDone }) {
       {step === "scan" && (
         <div className="space-y-3">
           <p className="text-sm text-slate-600">Tempel stiker QR di buku, lalu scan. Kalau kodenya belum terdaftar, kamu bisa mendaftarkan buku baru atau menambah eksemplar dari judul yang sudah ada.</p>
-          <Scanner onResult={onScan} accent="#0D9488" autoStart />
+          <Scanner onResult={onScan} sample="baru" accent="#0D9488" autoStart />
         </div>
       )}
       {step === "choose" && (
@@ -373,6 +373,7 @@ function BookDetail({ id, meta, onClose, onChanged }) {
                 <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="mb-3 overflow-hidden">
                   <Scanner
                     accent="#0D9488"
+                    sample="baru"
                     autoStart
                     onResult={(c) =>
                       act(async () => {
