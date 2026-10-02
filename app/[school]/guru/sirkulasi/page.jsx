@@ -192,7 +192,7 @@ function PinjamTab() {
         <div className="mb-3 flex items-center gap-2 font-display text-lg font-bold">
           <span className="flex h-7 w-7 items-center justify-center rounded-full bg-guru text-sm text-white">2</span> Scan buku
         </div>
-        {st ? <Scanner onResult={addCode} continuous accent="#0D9488" hint="Scan QR di buku, atau ketik nomor stiker. Bisa beberapa buku berturut-turut." placeholder="Ketik nomor stiker" /> : <div className="rounded-2xl bg-slate-100 p-6 text-center text-sm text-slate-500">Cari siswa dulu</div>}
+        {st ? <Scanner onResult={addCode} sample="tersedia" continuous accent="#0D9488" hint="Scan QR di buku, atau ketik nomor stiker. Bisa beberapa buku berturut-turut." placeholder="Ketik nomor stiker" /> : <div className="rounded-2xl bg-slate-100 p-6 text-center text-sm text-slate-500">Cari siswa dulu</div>}
       </Card>
 
       {queue.length > 0 && (
@@ -282,7 +282,7 @@ function KembaliTab() {
       <Confetti show={party > 0} key={party} count={18} />
       <Card>
         <div className="mb-3 font-display text-lg font-bold">Scan buku yang dikembalikan</div>
-        <Scanner onResult={check} continuous busy={checking} accent="#2563EB" hint="Tidak perlu NISN. Data peminjam muncul otomatis." placeholder="Ketik nomor stiker" />
+        <Scanner onResult={check} sample="semua" continuous busy={checking} accent="#2563EB" hint="Tidak perlu NISN. Data peminjam muncul otomatis." placeholder="Ketik nomor stiker" />
       </Card>
 
       <div className="space-y-4">

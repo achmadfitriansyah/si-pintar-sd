@@ -3,6 +3,8 @@ import { useEffect, useId, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Camera, CameraOff, FlipHorizontal2, Keyboard, ScanLine, SwitchCamera } from "lucide-react";
 import { beep } from "@/lib/beep";
+import { rpc } from "@/lib/client";
+import { useSchool } from "@/components/SchoolContext";
 
 /**
  * Scanner kamera + ketik manual.
@@ -10,7 +12,7 @@ import { beep } from "@/lib/beep";
  * mode="isbn" → barcode ISBN di sampul belakang
  * continuous  → kamera tetap menyala untuk scan berturut-turut (guru)
  */
-export default function Scanner({ onResult, mode = "qr", continuous = false, accent = "#EF4444", placeholder, autoStart = false, busy = false, hint }) {
+export default function Scanner({ onResult, mode = "qr", continuous = false, accent = "#EF4444", placeholder, autoStart = false, busy = false, hint, sample }) {
   const rid = useId().replace(/:/g, "");
   const elId = `scan-${rid}`;
   const scanner = useRef(null);
@@ -24,6 +26,19 @@ export default function Scanner({ onResult, mode = "qr", continuous = false, acc
   const [camCount, setCamCount] = useState(0);
   const camIdx = useRef(0);
   const [mirror, setMirror] = useState(false);
+  // Mode demo: tombol kode contoh supaya bisa dicoba tanpa stiker QR (sample = "tersedia" | "semua")
+  const school = useSchool()?.school;
+  const [samples, setSamples] = useState([]);
+  useEffect(() => {
+    if (!sample || mode !== "qr" || !school?.is_demo) return;
+    let alive = true;
+    rpc("guru.demoSamples", { kind: sample })
+      .then((r) => alive && setSamples(r.items || []))
+      .catch(() => {});
+    return () => {
+      alive = false;
+    };
+  }, [sample, mode, school?.is_demo]);
   useEffect(() => {
     try {
       setMirror(localStorage.getItem("sp:mirror") === "1");
@@ -188,6 +203,29 @@ export default function Scanner({ onResult, mode = "qr", continuous = false, acc
           Cek
         </motion.button>
       </form>
+
+      {samples.length > 0 && (
+        <div className="mt-3 rounded-2xl border-2 border-dashed border-amber-300 bg-amber-50 p-3">
+          <div className="text-xs font-bold text-amber-800">Mode demo: tidak punya stiker QR? Pakai kode contoh</div>
+          <div className="mt-2 flex flex-wrap gap-2">
+            {samples.map((x) => (
+              <button
+                key={x.code}
+                type="button"
+                disabled={busy}
+                onClick={() => {
+                  beep(true);
+                  cb.current(x.code);
+                }}
+                className="max-w-full truncate rounded-full bg-white px-3 py-1.5 text-xs font-bold text-slate-700 shadow-soft active:scale-95 disabled:opacity-50"
+              >
+                {x.label ? `${x.label} · ` : ""}
+                {x.judul}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
