@@ -35,18 +35,18 @@ export default function Landing() {
       <div className="absolute inset-x-0 top-2 h-2 bg-white" />
       <FloatingDecor />
 
-      <div className="relative mx-auto grid min-h-dvh max-w-6xl items-center gap-10 px-5 py-14 lg:grid-cols-2 lg:px-10">
+      <div className="relative mx-auto grid min-h-dvh max-w-6xl items-center gap-4 px-5 py-5 sm:gap-10 sm:py-14 lg:grid-cols-2 lg:px-10">
         <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="text-center lg:text-left">
-          <div className="mb-4 flex justify-center lg:justify-start">
+          <div className="mb-2 flex justify-center sm:mb-4 lg:justify-start">
             <motion.div animate={{ y: [0, -10, 0], rotate: [0, -4, 4, 0] }} transition={{ repeat: Infinity, duration: 3.2 }} >
-              <Icon name="kategori/semua" size={96} />
+              <Icon name="kategori/semua" size={96} className="h-14 w-14 sm:h-24 sm:w-24" />
             </motion.div>
           </div>
-          <h1 className="font-display text-5xl font-bold leading-none text-slate-900 sm:text-6xl">
+          <h1 className="font-display text-4xl font-bold leading-none text-slate-900 sm:text-6xl">
             SI-PINTAR <span className="text-brand">SD</span>
           </h1>
-          <p className="mx-auto mt-4 max-w-md text-base text-slate-600 lg:mx-0 lg:text-lg">
-            Aplikasi perpustakaan untuk SD. Peminjaman dicatat lewat scan QR, siswa dapat poin dari membaca, dan orang tua bisa melihat buku yang dibaca anaknya.
+          <p className="mx-auto mt-3 max-w-md text-[15px] leading-snug text-slate-600 sm:mt-4 sm:text-base lg:mx-0 lg:text-lg">
+            Peminjaman buku lewat scan QR, poin untuk siswa yang membaca, dan laporan untuk orang tua.
           </p>
           <div className="mt-6 hidden flex-wrap gap-2 lg:flex">
             {[["status/balon-buku", "Scan QR"], ["tantangan/umum", "Tantangan"], ["status/laporan", "Laporan PDF"], ["peran/ortu", "Pantauan ortu"]].map(([ic, f]) => (
@@ -59,8 +59,8 @@ export default function Landing() {
         </motion.div>
 
         <div>
-          <Ribbon className="mb-6">Pilih Sekolah</Ribbon>
-          <div className="space-y-4">
+          <Ribbon className="mb-4 sm:mb-6">Pilih Sekolah</Ribbon>
+          <div className="space-y-3 sm:space-y-4">
             {choices.map((c, i) => {
               const Icon = c.icon;
               return (
@@ -69,7 +69,7 @@ export default function Landing() {
                     <motion.div
                       whileHover={{ y: -4 }}
                       whileTap={{ scale: 0.97 }}
-                      className="relative overflow-hidden rounded-[2rem] p-6 text-white shadow-card"
+                      className="relative overflow-hidden rounded-[2rem] p-4 text-white shadow-card sm:p-6"
                       style={{ background: `linear-gradient(135deg, ${c.from}, ${c.to})` }}
                     >
                       <div className="absolute -right-8 -top-8 h-36 w-36 rounded-full bg-white/10" />
@@ -78,7 +78,7 @@ export default function Landing() {
                         <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-white/25 backdrop-blur"><Icon name={c.pic} size={48} /></div>
                         <div className="min-w-0 flex-1">
                           <div className="text-[11px] font-bold uppercase tracking-wider text-white/80">{c.tag}</div>
-                          <div className="font-display text-2xl font-bold leading-tight">{c.title}</div>
+                          <div className="font-display text-xl font-bold leading-tight sm:text-2xl">{c.title}</div>
                           <div className="mt-1 text-sm text-white/85">{c.sub}</div>
                         </div>
                         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/25 transition group-hover:translate-x-1">
@@ -92,7 +92,7 @@ export default function Landing() {
               );
             })}
           </div>
-          <div className="mt-8 text-center">
+          <div className="mt-5 text-center sm:mt-8">
             <div className="font-display font-semibold text-brand">&ldquo;Membaca Hari Ini, Sukses Esok Hari!&rdquo;</div>
             <Link href="/kebijakan-privasi" className="mt-3 inline-block text-xs font-semibold text-slate-500 underline">
               Kebijakan Privasi
