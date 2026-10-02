@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight, Sparkles, School, PlayCircle } from "lucide-react";
+import { ArrowRight, School, PlayCircle } from "lucide-react";
 import { Ribbon } from "@/components/ui";
 import Icon from "@/components/Icon";
 
@@ -9,9 +9,9 @@ const choices = [
   {
     href: "/demo/login",
     title: "Coba Demo",
-    sub: "Data contoh lengkap: buku, siswa, poin, dan tantangan. Bebas dicoba.",
+    sub: "Sudah berisi data contoh. Tidak perlu daftar.",
     icon: PlayCircle,
-    tag: "Untuk calon pengguna",
+    tag: "Coba dulu",
     from: "#F59E0B",
     to: "#EF4444",
     pic: "status/balon-buku",
@@ -21,7 +21,7 @@ const choices = [
     title: "SDN 001 Balikpapan Selatan",
     sub: "Masuk sebagai siswa, orang tua, atau guru.",
     icon: School,
-    tag: "Sekolah terdaftar",
+    tag: "Masuk",
     from: "#0D9488",
     to: "#1E3A8A",
     pic: "status/sekolah",
@@ -37,9 +37,6 @@ export default function Landing() {
 
       <div className="relative mx-auto grid min-h-dvh max-w-6xl items-center gap-10 px-5 py-14 lg:grid-cols-2 lg:px-10">
         <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="text-center lg:text-left">
-          <div className="mb-4 inline-flex items-center gap-1.5 rounded-full border border-red-200 bg-white/80 px-3 py-1 text-xs font-bold text-red-700">
-            <Sparkles className="h-3.5 w-3.5" /> Perpustakaan pintar untuk SD
-          </div>
           <div className="mb-4 flex justify-center lg:justify-start">
             <motion.div animate={{ y: [0, -10, 0], rotate: [0, -4, 4, 0] }} transition={{ repeat: Infinity, duration: 3.2 }} >
               <Icon name="kategori/semua" size={96} />
@@ -49,7 +46,7 @@ export default function Landing() {
             SI-PINTAR <span className="text-brand">SD</span>
           </h1>
           <p className="mx-auto mt-4 max-w-md text-base text-slate-600 lg:mx-0 lg:text-lg">
-            Pinjam buku dengan sekali scan, kumpulkan poin, naik level, dan orang tua bisa ikut memantau kebiasaan membaca anak.
+            Aplikasi perpustakaan untuk SD. Peminjaman dicatat lewat scan QR, siswa dapat poin dari membaca, dan orang tua bisa melihat buku yang dibaca anaknya.
           </p>
           <div className="mt-6 hidden flex-wrap gap-2 lg:flex">
             {[["status/balon-buku", "Scan QR"], ["tantangan/umum", "Tantangan"], ["status/laporan", "Laporan PDF"], ["peran/ortu", "Pantauan ortu"]].map(([ic, f]) => (
@@ -96,8 +93,7 @@ export default function Landing() {
             })}
           </div>
           <div className="mt-8 text-center">
-            <div className="text-[11px] font-bold tracking-[0.2em] text-slate-400">BERIMAN · SEHAT · RAMAH · INOVATIF · BERSERI</div>
-            <div className="mt-1 font-display font-semibold text-brand">&ldquo;Membaca Hari Ini, Sukses Esok Hari!&rdquo;</div>
+            <div className="font-display font-semibold text-brand">&ldquo;Membaca Hari Ini, Sukses Esok Hari!&rdquo;</div>
             <Link href="/kebijakan-privasi" className="mt-3 inline-block text-xs font-semibold text-slate-500 underline">
               Kebijakan Privasi
             </Link>
