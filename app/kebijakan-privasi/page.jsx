@@ -53,7 +53,6 @@ export default function KebijakanPrivasi() {
         <ul className="list-disc space-y-1 pl-5">
           <li><b>Supabase</b> menyimpan database dan gambar sampul.</li>
           <li><b>Vercel</b> menjalankan situs dan aplikasi.</li>
-          <li><b>Google Fonts</b> memuat huruf tampilan. Saat memuatnya, alamat IP perangkat terlihat oleh Google.</li>
         </ul>
         <p>Data dikirim lewat koneksi terenkripsi (HTTPS).</p>
       </Section>
