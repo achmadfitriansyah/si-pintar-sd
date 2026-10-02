@@ -1,14 +1,25 @@
 "use client";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { motion, useReducedMotion } from "framer-motion";
 import { LogOut, MoreHorizontal, KeyRound } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSchool } from "./SchoolContext";
 import { Modal } from "./ui";
-import { initials } from "@/lib/client";
+import { initials, prefetchRpc } from "@/lib/client";
+import { monthKey } from "@/lib/time";
 import Icon from "./Icon";
 import PasswordForm from "./PasswordForm";
+
+// Data tab yang dipanasi di belakang layar (harus sama persis dengan pemanggilan useRpc di tiap halaman)
+const WARM = {
+  guru: () => [
+    ["guru.activeLoans"], ["guru.meta"], ["guru.books", { q: "", categoryId: null }], ["guru.students", { status: "aktif" }],
+    ["guru.challenges"], ["guru.report", { month: monthKey() }], ["guru.settings"],
+  ],
+  siswa: () => [["siswa.overview"], ["books.catalog", { q: "", categoryId: null }], ["siswa.leaderboard"], ["siswa.loans"]],
+  ortu: () => [["siswa.overview"], ["siswa.loans"], ["siswa.leaderboard"]],
+};
 
 const THEMES = {
   siswa: { accent: "#EF4444", soft: "#FEE2E2", bg: "bg-brand-cream paper", label: "Siswa" },
@@ -25,6 +36,7 @@ export default function AppShell({ role, items, children }) {
   const path = usePathname();
   const { slug, school, me, logout } = useSchool();
   const reduce = useReducedMotion();
+  const router = useRouter();
   const [more, setMore] = useState(false);
   const [pinOpen, setPinOpen] = useState(false);
   const canPin = role === "siswa" || role === "ortu";
@@ -33,6 +45,16 @@ export default function AppShell({ role, items, children }) {
   const href = (i) => `${base}${i.href}`;
   const isActive = (i) => (i.href === "" ? path === base : path.startsWith(href(i)));
   const name = me?.student?.nama || me?.admin?.username || "";
+  // Setelah halaman pertama tampil: siapkan kode dan data tab lain supaya ketukan pertama tidak menunggu
+  useEffect(() => {
+    if (navigator.connection?.saveData) return;
+    const t = setTimeout(() => {
+      items.forEach((i) => router.prefetch(href(i)));
+      prefetchRpc(WARM[role]?.() || []);
+    }, 700);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [role, slug]);
   const mob = items.filter((i) => i.mobile !== false);
   const mobileItems = mob.length > 5 ? mob.slice(0, 4) : mob;
   const extra = mob.filter((i) => !mobileItems.includes(i));
