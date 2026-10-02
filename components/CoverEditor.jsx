@@ -1,25 +1,22 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { Camera, ImagePlus, Link2, Search, Wand2, RotateCcw, Check, Maximize2, Loader2 } from "lucide-react";
+import { Camera, ImagePlus, Link2, Wand2, RotateCcw, Check, Maximize2, Loader2 } from "lucide-react";
 import { Modal, Button, Input, Spinner } from "./ui";
 import { useToast } from "./Providers";
-import { rpc, uploadImage } from "@/lib/client";
+import { uploadImage } from "@/lib/client";
 import { loadImage, toCanvas, warp, enhance, toJpeg, fetchViaProxy, COVER_W, COVER_H } from "@/lib/image";
 
 /**
- * Editor cover buku: kamera / file / link / Google Books
+ * Editor cover buku: kamera / file / link
  * → luruskan 4 sudut → rapikan cahaya → 600×900 JPEG → unggah
  * onSaved(url) dipanggil setelah berhasil diunggah.
  */
-export default function CoverEditor({ open, onClose, onSaved, searchQuery = "", initialUrl = null }) {
+export default function CoverEditor({ open, onClose, onSaved, initialUrl = null }) {
   const toast = useToast();
   const [step, setStep] = useState("pick"); // pick | adjust | saving
   const [src, setSrc] = useState(null); // { url, fromCamera }
   const [link, setLink] = useState("");
-  const [q, setQ] = useState(searchQuery);
-  const [results, setResults] = useState(null);
-  const [searching, setSearching] = useState(false);
   const [loadingImg, setLoadingImg] = useState(false);
   const camRef = useRef(null);
   const fileRef = useRef(null);
@@ -27,8 +24,6 @@ export default function CoverEditor({ open, onClose, onSaved, searchQuery = "", 
   useEffect(() => {
     if (!open) return;
     setStep("pick");
-    setResults(null);
-    setQ(searchQuery);
     setLink("");
     if (initialUrl) takeRemote(initialUrl);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -52,22 +47,17 @@ export default function CoverEditor({ open, onClose, onSaved, searchQuery = "", 
     }
   };
 
+  // Kamera langsung di dalam aplikasi (sama seperti pemindai QR), supaya tidak tergantung perilaku browser.
+  // Hanya bila kamera tidak tersedia, pakai input "capture" bawaan HP.
+  const openCamera = () => {
+    if (navigator.mediaDevices?.getUserMedia) setStep("webcam");
+    else camRef.current?.click();
+  };
+
   const onFile = (e, fromCamera) => {
     const f = e.target.files?.[0];
     e.target.value = "";
     if (f) takeBlob(f, fromCamera);
-  };
-
-  const search = async (e) => {
-    e?.preventDefault();
-    setSearching(true);
-    try {
-      setResults(await rpc("books.searchCovers", { q }));
-    } catch (err) {
-      toast.error(err.message);
-    } finally {
-      setSearching(false);
-    }
   };
 
   const save = async (blob) => {
@@ -84,13 +74,13 @@ export default function CoverEditor({ open, onClose, onSaved, searchQuery = "", 
   };
 
   return (
-    <Modal open={open} onClose={onClose} title={step === "pick" ? "Cover buku" : "Rapikan cover"} wide>
+    <Modal open={open} onClose={onClose} title={step === "pick" ? "Cover buku" : step === "webcam" ? "Foto cover" : "Rapikan cover"} wide>
       {step === "pick" && (
         <div className="space-y-5">
           <input ref={camRef} type="file" accept="image/*" capture="environment" className="hidden" onChange={(e) => onFile(e, true)} />
           <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={(e) => onFile(e, false)} />
           <div className="grid grid-cols-2 gap-3">
-            <SourceBtn icon={Camera} title="Foto pakai kamera" text="Letakkan buku di meja kontras" color="#0D9488" onClick={() => camRef.current?.click()} />
+            <SourceBtn icon={Camera} title="Foto pakai kamera" text="Letakkan buku di meja kontras" color="#0D9488" onClick={openCamera} />
             <SourceBtn icon={ImagePlus} title="Pilih dari galeri" text="Foto atau gambar yang sudah ada" color="#7C3AED" onClick={() => fileRef.current?.click()} />
           </div>
 
@@ -106,35 +96,79 @@ export default function CoverEditor({ open, onClose, onSaved, searchQuery = "", 
             </div>
           </div>
 
-          <div className="rounded-3xl bg-slate-50 p-4">
-            <div className="mb-2 flex items-center gap-2 text-sm font-bold text-slate-700">
-              <Search className="h-4 w-4" /> Cari cover di Google Books
-            </div>
-            <form onSubmit={search} className="flex gap-2">
-              <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Judul buku" />
-              <Button variant="dark" loading={searching}>
-                Cari
-              </Button>
-            </form>
-            {results && results.length === 0 && <p className="mt-3 text-sm text-slate-500">Tidak ada cover ditemukan. Coba foto langsung saja.</p>}
-            {results?.length > 0 && (
-              <div className="mt-3 grid grid-cols-3 gap-3 sm:grid-cols-4">
-                {results.map((r, i) => (
-                  <motion.button key={i} whileTap={{ scale: 0.95 }} onClick={() => takeRemote(r.cover)} className="text-left">
-                    <img src={r.cover} alt="" className="aspect-[2/3] w-full rounded-xl bg-slate-200 object-cover shadow-card" />
-                    <div className="mt-1 line-clamp-2 text-[11px] font-semibold text-slate-600">{r.judul}</div>
-                  </motion.button>
-                ))}
-              </div>
-            )}
-            {loadingImg && <p className="mt-3 flex items-center gap-2 text-sm text-slate-500"><Loader2 className="h-4 w-4 animate-spin" /> Mengambil gambar...</p>}
-          </div>
+          {loadingImg && (
+            <p className="flex items-center gap-2 text-sm text-slate-500">
+              <Loader2 className="h-4 w-4 animate-spin" /> Mengambil gambar...
+            </p>
+          )}
         </div>
       )}
 
+      {step === "webcam" && (
+        <WebcamShot
+          onShot={(blob) => takeBlob(blob, true)}
+          onBack={() => setStep("pick")}
+          onFail={(e) => {
+            setStep("pick");
+            toast.error(/Permission|NotAllowed/i.test(String(e?.name || e)) ? "Izin kamera ditolak. Izinkan kamera di browser, atau pilih file foto." : "Kamera tidak ditemukan. Pilih dari galeri sebagai gantinya.");
+          }}
+        />
+      )}
       {step === "adjust" && src && <DocScanner src={src.url} full={!src.fromCamera} autoEnhance={src.fromCamera} onBack={() => setStep("pick")} onDone={save} />}
       {step === "saving" && <Spinner label="Mengunggah cover..." />}
     </Modal>
+  );
+}
+
+/** Webcam komputer: pratinjau langsung, lalu ambil foto */
+function WebcamShot({ onShot, onBack, onFail }) {
+  const vref = useRef(null);
+  const stream = useRef(null);
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    let alive = true;
+    (async () => {
+      try {
+        const st = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment", width: { ideal: 1920 }, height: { ideal: 1080 } }, audio: false });
+        if (!alive) return st.getTracks().forEach((t) => t.stop());
+        stream.current = st;
+        vref.current.srcObject = st;
+        await vref.current.play().catch(() => {});
+        setReady(true);
+      } catch (e) {
+        if (alive) onFail(e);
+      }
+    })();
+    return () => {
+      alive = false;
+      stream.current?.getTracks().forEach((t) => t.stop());
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  const shot = () => {
+    const v = vref.current;
+    if (!v?.videoWidth) return;
+    const c = document.createElement("canvas");
+    c.width = v.videoWidth;
+    c.height = v.videoHeight;
+    c.getContext("2d").drawImage(v, 0, 0);
+    c.toBlob((b) => b && onShot(b), "image/jpeg", 0.92);
+  };
+  return (
+    <div className="space-y-3">
+      <div className="overflow-hidden rounded-3xl bg-slate-900">
+        <video ref={vref} playsInline muted className="aspect-[4/3] w-full object-contain" />
+      </div>
+      <p className="text-center text-xs text-slate-500">Letakkan buku di meja kontras, sampul menghadap kamera, lalu ambil foto.</p>
+      <div className="flex gap-2">
+        <Button variant="soft" className="flex-1" onClick={onBack}>
+          Batal
+        </Button>
+        <Button variant="teal" className="flex-1" icon={Camera} disabled={!ready} onClick={shot}>
+          Ambil foto
+        </Button>
+      </div>
+    </div>
   );
 }
 

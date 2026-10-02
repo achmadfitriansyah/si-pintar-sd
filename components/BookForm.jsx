@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ScanBarcode, ImagePlus, Wand2 } from "lucide-react";
+import { ScanBarcode, ImagePlus } from "lucide-react";
 import { Field, Input, Select, Button, Cover, inputCls } from "./ui";
 import Scanner from "./Scanner";
 import CoverEditor from "./CoverEditor";
@@ -14,7 +14,6 @@ export const emptyBook = { judul: "", penulis: "", penerbit: "", tahun: "", isbn
 export default function BookForm({ value, onChange, meta }) {
   const toast = useToast();
   const [isbnScan, setIsbnScan] = useState(false);
-  const [gbCover, setGbCover] = useState(null);
   const [coverOpen, setCoverOpen] = useState(false);
   const [coverInit, setCoverInit] = useState(null);
   const set = (k) => (e) => onChange({ ...value, [k]: e.target.value });
@@ -37,21 +36,6 @@ export default function BookForm({ value, onChange, meta }) {
         >
           {value.cover_url ? "Ganti cover" : "Ambil cover"}
         </Button>
-        {gbCover && !value.cover_url && (
-          <button
-            type="button"
-            onClick={() => {
-              setCoverInit(gbCover);
-              setCoverOpen(true);
-            }}
-            className="flex w-full items-center gap-2 rounded-2xl bg-teal-50 p-2 text-left text-xs font-bold text-teal-700 active:scale-95"
-          >
-            <img src={gbCover} alt="" className="h-12 w-8 rounded object-cover" />
-            <span className="flex items-center gap-1">
-              <Wand2 className="h-3.5 w-3.5" /> Pakai cover dari Google Books
-            </span>
-          </button>
-        )}
       </div>
 
       <div className="space-y-3">
@@ -115,7 +99,7 @@ export default function BookForm({ value, onChange, meta }) {
         </Field>
       </div>
 
-      <CoverEditor open={coverOpen} onClose={() => setCoverOpen(false)} searchQuery={value.judul} initialUrl={coverInit} onSaved={(url) => onChange({ ...value, cover_url: url })} />
+      <CoverEditor open={coverOpen} onClose={() => setCoverOpen(false)} initialUrl={coverInit} onSaved={(url) => onChange({ ...value, cover_url: url })} />
     </div>
   );
 }
