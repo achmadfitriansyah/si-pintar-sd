@@ -22,8 +22,8 @@ on:
         description: "Alamat situs"
         default: "https://si-pintar-sd.vercel.app"
       version_code:
-        description: "Nomor versi (naikkan tiap upload ke Play Store)"
-        default: "1"
+        description: "Nomor versi. Kosong = pakai versionCode di mobile/android/app/build.gradle (naikkan di sana tiap upload ke Play Store)"
+        default: ""
 
 jobs:
   build:
@@ -50,7 +50,7 @@ jobs:
           APP_NAME: ${{ inputs.app_name || 'SI-PINTAR SD' }}
           APP_ID_IN: ${{ inputs.app_id || '' }}
           BASE_URL: ${{ inputs.base_url || 'https://si-pintar-sd.vercel.app' }}
-          VCODE: ${{ inputs.version_code || '1' }}
+          VCODE: ${{ inputs.version_code || '' }}
         run: |
           APP_ID="${APP_ID_IN:-com.sipintarsd.${SLUG:-app}}"; export APP_ID
           node -e '
@@ -61,7 +61,8 @@ jobs:
             c.server.allowNavigation=[new URL(process.env.BASE_URL).host];
             fs.writeFileSync("capacitor.config.json",JSON.stringify(c,null,2));
           ' 
-          sed -i "s/applicationId \".*\"/applicationId \"$APP_ID\"/; s/versionCode [0-9]*/versionCode $VCODE/" android/app/build.gradle
+          sed -i "s/applicationId \".*\"/applicationId \"$APP_ID\"/" android/app/build.gradle
+          if [ -n "$VCODE" ]; then sed -i "s/versionCode [0-9]*/versionCode $VCODE/" android/app/build.gradle; fi
           sed -i "s#<string name=\"app_name\">.*</string>#<string name=\"app_name\">$APP_NAME</string>#; s#<string name=\"title_activity_main\">.*</string>#<string name=\"title_activity_main\">$APP_NAME</string>#; s#<string name=\"package_name\">.*</string>#<string name=\"package_name\">$APP_ID</string>#; s#<string name=\"custom_url_scheme\">.*</string>#<string name=\"custom_url_scheme\">$APP_ID</string>#" android/app/src/main/res/values/strings.xml
           echo "APP_ID=$APP_ID" >> "$GITHUB_ENV"
 
